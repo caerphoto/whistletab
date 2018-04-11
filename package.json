@@ -1,0 +1,16 @@
+{
+  "name": "whistletab",
+  "version": "1.0.0",
+  "description": "Tin whistle tab creator",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andy Farrell",
+  "license": "ISC",
+  "dependencies": {
+    "connect": "^3.6.6",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3"
+  }
+}

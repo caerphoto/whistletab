@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tin Whistle Tab Creator</title>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <link href="whistletab.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+  </head>
+  <body>
+    <h1>Tin Whistle Tab Creator</h1>
+    <p>Use <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves, and <kbd>#</kbd> to indicate sharps. Spaces and newlines can also be used for grouping.</p>
+
+    <textarea id="notes"></textarea>
+
+    <h1 class="print-only" id="print-title">(untitled)</h1>
+
+    <div id="tab"></div>
+
+    <form id="save-tab-form" action="#">
+      <label>
+        Tab name:
+        <input type="text" id="tab-name">
+      </label>
+
+      <button type="submit" id="save-tab">Save</button>
+    </form>
+
+    <form id="saved-tabs-form" action="#" class="no-saved-tabs">
+      <fieldset>
+        <legend>Saved tabs</legend>
+        <div id="tab-list">
+          <label><input type="radio" name="selected-tab-index" value="0" checked>
+            Some tab name</label>
+        </div>
+        <p><button type="submit" id="load-tab">Load tab</button>
+        <button type="button" id="delete-tab" class="danger">Delete tab</button></p>
+      </fieldset>
+    </form>
+
+    <template id="tab-entry"><ul class="tab-stack">
+        <li class="tab-finger">$0</li>
+        <li class="tab-finger">$1</li>
+        <li class="tab-finger">$2</li>
+        <li class="tab-finger">$3</li>
+        <li class="tab-finger">$4</li>
+        <li class="tab-finger">$5</li>
+        <li class="tab-note">$N</li>
+      </ul></template>
+
+    <template id="tab-entry-error">
+      <ul class="tab-stack error">
+        <li class="tab-finger">?</li>
+        <li class="tab-finger">?</li>
+        <li class="tab-finger">?</li>
+        <li class="tab-finger">?</li>
+        <li class="tab-finger">?</li>
+        <li class="tab-finger">?</li>
+        <li class="tab-note">?</li>
+      </ul>
+    </template>
+
+    <footer>
+      <p>Tin Whistle Tab Creator by <a href="http://andyf.me/">Andy Farrell</a>.</p>
+    </footer>
+    <% if (serverStore) { %>
+      <script src="serverstore.js"></script>
+    <% } %>
+    <script src="whistletab.js"></script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+html {
+  padding: 0;
+  margin: 0;
+}
+body {
+  padding: 0;
+  margin: 0 auto;
+  max-width: 60em;
+  font-family: 'Nanum Gothic';
+  font-size: 16px;
+  color: #444;
+}
+
+h1 {
+  font-weight: normal;
+  border-bottom: 1px solid #ddd;
+}
+
+kbd {
+  font-family: 'Consolas', monospace;
+  padding: 0 0.2em;
+  background-color: #eee;
+}
+
+textarea, input[type="text"] {
+  box-sizing: border-box;
+  padding: 0.2em 0.5em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
+  color: #444;
+}
+
+textarea {
+  margin: 0 auto 1em;
+  width: 100%;
+  height: 6em;
+  font-family: 'Consolas', monospace;
+  font-size: inherit;
+  letter-spacing: 0.05em;
+  word-spacing: 0.3em;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #080;
+  box-shadow: inset 1px 1px 3px 0 rgba(0, 128, 0, 0.4);
+  outline: none;
+  color: #000;
+}
+
+input[type="text"] {
+  margin: 0 0.5em;
+  font: inherit;
+  line-height: 1;
+}
+
+.tab-stack {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0.2em 1.3em 0;
+  /* float: left; */
+}
+
+br + .tab-stack {
+  /* clear: both; */
+}
+
+.tab-stack li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  width: 1em;
+  text-align: center;
+}
+
+.tab-stack li:nth-child(4) {
+  margin-top: 0.5em;
+}
+
+.tab-stack li.tab-note {
+  position: relative;
+  padding-top: 0.6em;
+  white-space: no-wrap;
+}
+
+.tab-note .sharp {
+  display: inline-block;
+  vertical-align: 10%;
+  width: 0;
+  margin-left: -0.2em;
+  padding-right: 0.2em;
+  font-size: 70%;
+  text-shadow: -1px 1px #fff;
+}
+
+.tab-stack li sup {
+  position: absolute;
+  top: -0.1em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 70%;
+  color: #000;
+}
+
+.tab-stack.error {
+  color: #c00;
+}
+
+.spacer {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+form {
+  clear: both;
+  margin: 0 0 1em;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+}
+
+input[type="radio"] {
+  margin-right: 0.5em;
+}
+
+#tab-list label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+button {
+  border: 1px solid #888;
+  font: inherit;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 1em;
+  background-color: #eee;
+}
+
+.danger {
+  border-color: #c00;
+  color: #c00;
+}
+
+footer {
+  clear: both;
+  font-size: 80%;
+}
+
+@media screen {
+  h1.print-only {
+    border: none;
+    font-size: 1rem;
+    margin: 0 0 1em;
+    color: #000;
+  }
+  h1.print-only::before {
+    content: 'Print title: ';
+    color: #888;
+  }
+
+  h1.print-only::after {
+    content: ' (save or load a tab to set title)';
+    color: #888;
+  }
+}
+
+@media print {
+  body {
+    max-width: auto;
+    color: #000;
+    margin: 1em 2em;
+    font-size: 14px;
+  }
+
+  h1, p, textarea, form {
+    display: none;
+  }
+
+  footer p,
+  h1.print-only {
+    display: block;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  a::after {
+    content: ' (' attr(href) ')';
+  }
+}
