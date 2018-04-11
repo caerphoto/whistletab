@@ -86,8 +86,10 @@ app.post('/whistletab/tabs', function (req, res) {
 
 if (app.get('env') === 'production') {
   app.listen(LISTEN_PORT, 'localhost');
-  console.log('Listening to localhost on ' + LISTEN_PORT);
+  console.log('Listening to localhost on ' + LISTEN_PORT + '. PID: ' + process.pid);
+  fs.writeFileSync('pidfile', process.pid, 'utf8');
 } else {
   app.listen(LISTEN_PORT);
-  console.log('Listening on ' + LISTEN_PORT);
+  console.log('Listening on ' + LISTEN_PORT + '. PID: ' + process.pid);
+  fs.writeFileSync('pidfile', process.pid, 'utf8');
 }
