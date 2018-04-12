@@ -68,7 +68,8 @@ input[type="text"] {
 .tab-stack {
   display: inline-block;
   padding: 0;
-  margin: 0 0.2em 1.3em 0;
+  margin: 0 0 1.3em 0;
+  width: 1.2em;
   /* float: left; */
 }
 
@@ -121,7 +122,7 @@ br + .tab-stack {
 
 .spacer {
   display: inline-block;
-  width: 1em;
+  width: 1.2em;
   height: 1em;
 }
 
