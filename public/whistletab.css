@@ -124,6 +124,11 @@ br + .tab-stack {
   height: 1em;
 }
 
+.comment {
+  margin: -0.5em 0 1em;
+  white-space: pre;
+}
+
 form {
   clear: both;
   margin: 0 0 1em;

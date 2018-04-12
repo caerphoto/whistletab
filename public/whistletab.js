@@ -52,6 +52,8 @@
     errorTemplate: D.querySelector('#tab-entry-error').innerHTML,
     spacerTemplate: '<span class="spacer"></span>',
 
+    noteMatcher: /--.*(\n|$)|[a-g]#?\+{0,2}|\n| /g,
+
     fingerings: {
       'D':   '------',
       'D#':  '-----h',
@@ -92,6 +94,16 @@
       '-': '\u25cf', // black circle
       'h': '\u25d1'  // circle with right half black
     },
+
+    commentFromNote: function (note) {
+      var comment = note.slice(2);
+      var para = D.createElement('p');
+      var text = D.createTextNode(comment);
+      para.appendChild(text);
+      para.className = 'comment';
+
+      return para.outerHTML;
+    },
     noteTemplate: function (note) {
       return note.
         replace('#', '<span class="sharp">\u266f</span>'). // sharp symbol
@@ -115,6 +127,10 @@
         return this.spacerTemplate;
       }
 
+      if (/^--/.test(note)) {
+        return this.commentFromNote(note);
+      }
+
       noteLookup = note.toUpperCase();
 
       if (this.fingerings[noteLookup]) {
@@ -130,7 +146,7 @@
         replace('$N', this.noteTemplate(noteLookup));
     },
     setTab: function (noteString) {
-      var notes = noteString.match(/[a-g]#?\+{0,2}|\n| /g);
+      var notes = noteString.match(this.noteMatcher);
       var tabs;
 
       if (!notes || notes.length === 0) {
