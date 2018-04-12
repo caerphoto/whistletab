@@ -171,6 +171,7 @@
     savedTabList: D.querySelector('#tab-list'),
 
     deleteButton: D.querySelector('#delete-tab'),
+    overwriteButton: D.querySelector('#overwrite-tab'),
     saveTabForm: D.querySelector('#save-tab-form'),
     savedTabsForm: D.querySelector('#saved-tabs-form'),
 
@@ -186,6 +187,7 @@
       this.tabInput = input;
       this.saveTabForm.addEventListener('submit', this.saveTab.bind(this));
       this.savedTabsForm.addEventListener('submit', this.loadTab.bind(this));
+      this.overwriteButton.addEventListener('click', this.overwriteTab.bind(this));
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
 
       this.fetchTabs(function () {
@@ -236,19 +238,36 @@
       var elements = this.savedTabsForm.elements;
       return parseInt(elements['selected-tab-index'].value, 10);
     },
+    getSelectedTab: function () {
+      return this.savedTabs[this.getSelectedIndex()];
+    },
 
     loadTab: function (event) {
-      var tabToLoad = this.savedTabs[this.getSelectedIndex()];
+      var tabToLoad = this.getSelectedTab();
       event.preventDefault();
       this.tabInput.setValue(tabToLoad.tab);
       this.printTitle.innerHTML = tabToLoad.name;
     },
 
+    overwriteTab: function () {
+      var tabToOverwrite = this.getSelectedTab();
+      var newName = W.prompt('Tab name:', tabToOverwrite.name);
+
+      if (newName) {
+        tabToOverwrite.name = newName;
+        tabToOverwrite.tab = this.tabInput.getValue();
+        this.storeTabs();
+        this.renderSavedTabList(this.getSelectedIndex());
+      }
+    },
+
     deleteTab: function () {
       var index = this.getSelectedIndex();
+      var tabToDelete = this.getSelectedTab();
+
       if (W.confirm(
         'Are you sure you want to delete the selected tab?\n\n' +
-        'Name: ' + this.savedTabs[index].name
+        'Name: ' + tabToDelete.name
       )) {
         this.savedTabs.splice(index, 1);
         this.storeTabs();

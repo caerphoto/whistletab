@@ -65,19 +65,24 @@ input[type="text"] {
   height: 2em;
 }
 
-.tab-stack {
+#tab {
+  margin-bottom: 1em;
+  overflow: hidden;
+}
+
+.tab-note {
   float: left;
   padding: 0;
   margin: 0 0 0.4em 0;
 }
 
-.tab-stack,
+.tab-note,
 .spacer {
   width: 1.3em;
 }
 
 
-.tab-stack li {
+.tab-note li {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -86,11 +91,11 @@ input[type="text"] {
   text-align: center;
 }
 
-.tab-stack li:nth-child(4) {
+.tab-note li:nth-child(4) {
   margin-top: 0.5em;
 }
 
-.tab-stack li.tab-note {
+.tab-note li.tab-note {
   position: relative;
   padding-top: 0.6em;
   white-space: no-wrap;
@@ -106,7 +111,7 @@ input[type="text"] {
   text-shadow: -1px 1px #fff;
 }
 
-.tab-stack li sup {
+.tab-note li sup {
   position: absolute;
   top: -0.1em;
   left: 0;
@@ -116,7 +121,7 @@ input[type="text"] {
   color: #000;
 }
 
-.tab-stack.error {
+.tab-note.error {
   color: #c00;
 }
 
@@ -126,7 +131,7 @@ input[type="text"] {
 }
 
 .comment + .comment,
-.comment + .tab-stack {
+.comment + .tab-note {
   clear: left;
 }
 
@@ -140,12 +145,12 @@ input[type="text"] {
 
 /* end of line comments */
 .spacer + .comment,
-.tab-stack + .comment {
+.tab-note + .comment {
   margin-top: 3.5em;
 }
 
 .spacer + .comment.heading,
-.tab-stack + .comment.heading {
+.tab-note + .comment.heading {
   margin-top: 2em;
 }
 
@@ -194,6 +199,11 @@ button {
   background-color: #eee;
 }
 
+.warning {
+  border-color: #b80;
+  color: #b80;
+  background-color: #f8f8ea;
+}
 .danger {
   border-color: #c00;
   color: #c00;
