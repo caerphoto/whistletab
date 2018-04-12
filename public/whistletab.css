@@ -68,24 +68,14 @@ input[type="text"] {
 .tab-stack {
   float: left;
   padding: 0;
-  margin: 0 0 1.3em 0;
-  width: 1.2em;
-  /* float: left; */
+  margin: 0 0 0.4em 0;
 }
 
-br {
-  clear: both;
+.tab-stack,
+.spacer {
+  width: 1.3em;
 }
 
-.comment + br + .comment {
-  margin-top: 1em;
-}
-
-.comment + .comment,
-br + .comment,
-br + .tab-stack {
-  clear: both;
-}
 
 .tab-stack li {
   list-style: none;
@@ -132,24 +122,50 @@ br + .tab-stack {
 
 .spacer {
   float: left;
-  width: 1.2em;
   height: 1em;
 }
 
+.comment + .comment,
 .comment + .tab-stack {
   clear: left;
 }
 
 .comment {
   float: left;
-  margin: -0.5em 0 0.3em;
+  margin: 0 0 0.3em;
   white-space: pre;
-  vertical-align: bottom;
+  font-size: 0.8em;
+  letter-spacing: -0.05em;
 }
 
+/* end of line comments */
 .spacer + .comment,
 .tab-stack + .comment {
-  margin-top: 2.6em;
+  margin-top: 3.5em;
+}
+
+.spacer + .comment.heading,
+.tab-stack + .comment.heading {
+  margin-top: 2em;
+}
+
+.comment.heading {
+  font-size: 1.2em;
+  letter-spacing: 0;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.2em;
+  margin-bottom: 0.4em;
+}
+
+.line-break {
+  width: 1em;
+  height: 0;
+  clear: both;
+}
+
+.comment + .line-break,
+.line-break + .line-break {
+  height: 1em;
 }
 
 form {

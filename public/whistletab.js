@@ -52,7 +52,7 @@
     errorTemplate: D.querySelector('#tab-entry-error').innerHTML,
     spacerTemplate: '<span class="spacer"></span>',
 
-    noteMatcher: /--.*(\n|$)|[a-g]#?\+{0,2}|\n| /g,
+    noteMatcher: /-{2,3}.*(\n|$)|[a-g]#?\+{0,2}|\n| /g,
 
     fingerings: {
       'D':   '------',
@@ -95,12 +95,12 @@
       'h': '\u25d1'  // circle with right half black
     },
 
-    commentFromNote: function (note) {
-      var comment = note.slice(2);
+    commentFromNote: function (note, isHeading) {
+      var comment = note.replace(/^-{2,3}(.*)\n/, '$1');
       var para = D.createElement('p');
       var text = D.createTextNode(comment);
       para.appendChild(text);
-      para.className = 'comment';
+      para.className = isHeading ? 'comment heading' : 'comment';
 
       return para.outerHTML;
     },
@@ -116,7 +116,7 @@
       var noteLookup;
 
       if (note === '\n') {
-        return '<br>';
+        return '<div class="line-break"></div>';
       }
 
       if (note === '') {
@@ -127,8 +127,12 @@
         return this.spacerTemplate;
       }
 
+      if (/^---/.test(note)) {
+        return this.commentFromNote(note, true);
+      }
+
       if (/^--/.test(note)) {
-        return this.commentFromNote(note);
+        return this.commentFromNote(note, false);
       }
 
       noteLookup = note.toUpperCase();
