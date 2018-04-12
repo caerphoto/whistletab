@@ -1,3 +1,4 @@
 node_modules
 public/whistletab
 pidfile
+tabs.json
