@@ -66,15 +66,25 @@ input[type="text"] {
 }
 
 .tab-stack {
-  display: inline-block;
+  float: left;
   padding: 0;
   margin: 0 0 1.3em 0;
   width: 1.2em;
   /* float: left; */
 }
 
+br {
+  clear: both;
+}
+
+.comment + br + .comment {
+  margin-top: 1em;
+}
+
+.comment + .comment,
+br + .comment,
 br + .tab-stack {
-  /* clear: both; */
+  clear: both;
 }
 
 .tab-stack li {
@@ -121,14 +131,25 @@ br + .tab-stack {
 }
 
 .spacer {
-  display: inline-block;
+  float: left;
   width: 1.2em;
   height: 1em;
 }
 
+.comment + .tab-stack {
+  clear: left;
+}
+
 .comment {
-  margin: -0.5em 0 1em;
+  float: left;
+  margin: -0.5em 0 0.3em;
   white-space: pre;
+  vertical-align: bottom;
+}
+
+.spacer + .comment,
+.tab-stack + .comment {
+  margin-top: 2.6em;
 }
 
 form {
