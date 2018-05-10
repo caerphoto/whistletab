@@ -34,17 +34,7 @@ function log(eventString, request) {
   ].join(' '));
 }
 
-app.get('/whistletab', function (req, res) {
-  var serverStore = false;
-  if (req.query.store === 'server') {
-    serverStore = true;
-  }
-  res.render('index.ejs', { serverStore: serverStore });
-
-  log('', req);
-});
-
-app.get('/whistletab/tabs', function (req, res) {
+function getTabs(req, callback) {
   fs.readFile('tabs.json', 'utf8', function (err, jsonString) {
     var tabs;
     var logInfo = 'read and parse';
@@ -59,13 +49,36 @@ app.get('/whistletab/tabs', function (req, res) {
       tabs = DEFAULT_TABS;
       logInfo = 'parse failed';
     }
-    res.json(tabs);
+
+    callback(tabs);
     log(logInfo, req);
+  });
+}
+
+app.get('/whistletab', function (req, res) {
+  var serverStore = false;
+  if (req.query.store === 'server') {
+    serverStore = true;
+  }
+  getTabs(req, function (tabs) {
+    res.render('index.ejs', { serverStore: serverStore, tabs: tabs });
+  });
+
+  log('index', req);
+});
+
+app.get('/whistletab/tabs', function (req, res) {
+  getTabs(req, function (tabs) {
+    res.json(tabs);
   });
 });
 
 app.post('/whistletab/tabs', function (req, res) {
   var jsonString;
+
+  if (req.header('Token') !== 'server-store') {
+    return res.status(401).end();
+  }
 
   try {
     jsonString = JSON.stringify(req.body);

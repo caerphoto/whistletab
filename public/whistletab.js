@@ -25,6 +25,10 @@
     }
   };
 
+  if (W.dataStore) {
+    D.body.classList.add('server-store');
+  }
+
   var input = {
     el: D.querySelector('#notes'),
     output: null,
@@ -186,11 +190,13 @@
   var tabStorage = {
     nameInput: D.querySelector('#tab-name'),
     savedTabList: D.querySelector('#tab-list'),
+    serverTabList: D.querySelector('#server-tab-list'),
 
     deleteButton: D.querySelector('#delete-tab'),
     overwriteButton: D.querySelector('#overwrite-tab'),
     saveTabForm: D.querySelector('#save-tab-form'),
     savedTabsForm: D.querySelector('#saved-tabs-form'),
+    serverTabsForm: D.querySelector('#server-tabs-form'),
 
     printTitle: D.querySelector('#print-title'),
 
@@ -204,6 +210,7 @@
       this.tabInput = input;
       this.saveTabForm.addEventListener('submit', this.saveTab.bind(this));
       this.savedTabsForm.addEventListener('submit', this.loadTab.bind(this));
+      this.serverTabsForm.addEventListener('submit', this.loadTab.bind(this));
       this.overwriteButton.addEventListener('click', this.overwriteTab.bind(this));
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
 
@@ -213,7 +220,7 @@
         this.renderSavedTabList();
       });
 
-
+      this.renderSavedTabList(0, true);
     },
 
     fetchTabs: function (whenDone) {
@@ -251,16 +258,18 @@
       this.nameInput.value = '';
     },
 
-    getSelectedIndex: function () {
-      var elements = this.savedTabsForm.elements;
-      return parseInt(elements['selected-tab-index'].value, 10);
+    getSelectedIndex: function (useServerTabs) {
+      var form = useServerTabs ? this.serverTabsForm : this.savedTabsForm;
+      return parseInt(form.elements['selected-tab-index'].value, 10);
     },
-    getSelectedTab: function () {
-      return this.savedTabs[this.getSelectedIndex()];
+    getSelectedTab: function (useServerTabs) {
+      var tabs = useServerTabs ? window.serverTabs : this.savedTabs;
+      return tabs[this.getSelectedIndex(useServerTabs)];
     },
 
     loadTab: function (event) {
-      var tabToLoad = this.getSelectedTab();
+      var isServerTab = event.target.id === this.serverTabsForm.id;
+      var tabToLoad = this.getSelectedTab(isServerTab);
       event.preventDefault();
       this.tabInput.setValue(tabToLoad.tab);
       this.printTitle.innerHTML = tabToLoad.name;
@@ -292,13 +301,15 @@
       }
     },
 
-    renderSavedTabList: function (selectedIndex) {
+    renderSavedTabList: function (selectedIndex, useServerTabs) {
       var frag = D.createDocumentFragment();
+      var tabs = useServerTabs ? window.serverTabs : this.savedTabs;
+      var tabList = useServerTabs ? this.serverTabList : this.savedTabList;
       if (!selectedIndex) {
         selectedIndex = 0;
       }
 
-      this.savedTabs.forEach(function (savedTab, index) {
+      tabs.forEach(function (savedTab, index) {
         var label = D.createElement('label');
         var text = D.createTextNode(savedTab.name);
         var input = D.createElement('input');
@@ -315,8 +326,8 @@
         frag.appendChild(label);
       });
 
-      this.savedTabList.innerHTML = '';
-      this.savedTabList.appendChild(frag);
+      tabList.innerHTML = '';
+      tabList.appendChild(frag);
     }
   };
 

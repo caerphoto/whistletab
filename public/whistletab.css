@@ -174,8 +174,15 @@ input[type="text"] {
 }
 
 form {
-  clear: both;
+  box-sizing: border-box;
   margin: 0 0 1em;
+  width: 50%;
+  float: left;
+}
+
+#tab + form,
+#save-tab-form + form {
+  clear: both;
 }
 
 fieldset {
@@ -186,9 +193,13 @@ input[type="radio"] {
   margin-right: 0.5em;
 }
 
-#tab-list label {
+.tab-list label {
   display: block;
   margin-bottom: 0.5em;
+}
+
+legend {
+  color: #000;
 }
 
 button {

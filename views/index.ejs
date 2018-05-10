@@ -27,14 +27,22 @@
 
     <form id="saved-tabs-form" action="#" class="no-saved-tabs">
       <fieldset>
-        <legend>Saved tabs</legend>
-        <div id="tab-list">
+        <legend>Your tabs</legend>
+        <div id="tab-list" class="tab-list">
           <label><input type="radio" name="selected-tab-index" value="0" checked>
             Some tab name</label>
         </div>
         <p><button type="submit" id="load-tab">Load tab</button>
         <button type="button" id="overwrite-tab" class="warning">Overwrite tab</button>
         <button type="button" id="delete-tab" class="danger">Delete tab</button></p>
+      </fieldset>
+    </form>
+
+    <form id="server-tabs-form" action="#">
+      <fieldset>
+        <legend>Ready-made tabs</legend>
+        <div id="server-tab-list" class="tab-list"></div>
+        <p><button type="submit" id="load-server-tab">Load tab</button></p>
       </fieldset>
     </form>
 
@@ -59,6 +67,10 @@
         <li class="tab-note">?</li>
       </ul>
     </template>
+
+    <script>
+      window.serverTabs = <%- JSON.stringify(tabs) %>;
+    </script>
 
     <footer>
       <p>Tin Whistle Tab Creator by <a href="http://andyf.me/">Andy Farrell</a>.</p>
