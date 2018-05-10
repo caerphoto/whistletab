@@ -333,4 +333,8 @@
 
   input.init(tab);
   tabStorage.init(input);
+
+  D.querySelector('#white-background').addEventListener('change', function (evt) {
+    D.body.classList.toggle('white-background', this.checked);
+  });
 }(window, window.document));

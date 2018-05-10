@@ -16,6 +16,10 @@ body.server-store {
   background-color: #f8f2ea;
 }
 
+body.white-background {
+  background-color: #fff;
+}
+
 h1 {
   font-weight: normal;
   border-bottom: 1px solid #ddd;
@@ -192,7 +196,13 @@ form {
   float: left;
 }
 
-#tab + form,
+.break-float {
+  clear: both;
+  display: block;
+  margin-bottom: 1em;
+}
+
+#tab + label,
 #save-tab-form + form {
   clear: both;
 }
