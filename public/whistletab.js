@@ -120,7 +120,10 @@
     noteTemplate: function (note) {
       // Uppercase notes are shorthand for `<note>+`
       if (/[A-G]/.test(note)) {
-        note += '+';
+        note = '+';
+      }
+      if (/\+/.test(note)) {
+        note = note.toUpperCase();
       }
       return note.
         replace('#', '<span class="sharp">\u266f</span>'). // sharp symbol
