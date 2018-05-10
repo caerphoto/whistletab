@@ -120,7 +120,7 @@
     noteTemplate: function (note) {
       // Uppercase notes are shorthand for `<note>+`
       if (/[A-G]/.test(note)) {
-        note = '+';
+        note += '+';
       }
       if (/\+/.test(note)) {
         note = note.toUpperCase();
