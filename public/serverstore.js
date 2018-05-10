@@ -17,7 +17,7 @@
 
       xhr.open('POST', '/whistletab/tabs', true);
       xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      xhr.setRequestHeader('Token', 'server-store');
+      xhr.setRequestHeader('Secret', window.WHISTLETAB_SECRET);
       xhr.addEventListener('load', function () {
         if (typeof callback === 'function') {
           callback();

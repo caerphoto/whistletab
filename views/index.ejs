@@ -6,7 +6,7 @@
     <link href="/whistletab/whistletab.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/whistletab/favicon.png">
   </head>
-  <body>
+  <body class="<%= serverStore ? 'server-store' : '' %>">
     <h1>Tin Whistle Tab Creator</h1>
     <p>For <em>D-tuned</em> whistles. Use <kbd>#</kbd> after a note to indicate sharp, and <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves. Spaces and newlines can be used for grouping, and headings and lyrics can be added by starting a new line with <kbd>-&zwnj;-&zwnj;-&zwnj;</kbd> and <kbd>-&zwnj;-</kbd>.</p>
 
@@ -76,6 +76,7 @@
       <p>Tin Whistle Tab Creator by <a href="http://andyf.me/">Andy Farrell</a>.</p>
     </footer>
     <% if (serverStore) { %>
+      <script>window.WHISTLETAB_SECRET = '<%= secret %>';</script>
       <script src="/whistletab/serverstore.js"></script>
     <% } %>
     <script src="/whistletab/whistletab.js"></script>

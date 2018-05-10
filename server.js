@@ -17,6 +17,12 @@ var DEFAULT_TABS = [
   }
 ];
 
+var SECRET = process.env.SECRET;
+
+if (!SECRET) {
+  throw new Error('No SECRET environment variable set.');
+}
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('trust proxy', true);
@@ -57,11 +63,15 @@ function getTabs(req, callback) {
 
 app.get('/whistletab', function (req, res) {
   var serverStore = false;
-  if (req.query.store === 'server') {
+  if (req.query.secret && req.query.secret === SECRET) {
     serverStore = true;
   }
   getTabs(req, function (tabs) {
-    res.render('index.ejs', { serverStore: serverStore, tabs: tabs });
+    res.render('index.ejs', {
+      serverStore: serverStore,
+      tabs: tabs,
+      secret: SECRET
+    });
   });
 
   log('index', req);
@@ -76,8 +86,8 @@ app.get('/whistletab/tabs', function (req, res) {
 app.post('/whistletab/tabs', function (req, res) {
   var jsonString;
 
-  if (req.header('Token') !== 'server-store') {
-    return res.status(401).end();
+  if (req.header('Secret') !== SECRET) {
+    return res.status(403).end();
   }
 
   try {

@@ -9,6 +9,11 @@ body {
   font-family: 'Nanum Gothic';
   font-size: 16px;
   color: #444;
+  background-color: #ecf2f5;
+}
+
+body.server-store {
+  background-color: #f8f2ea;
 }
 
 h1 {
@@ -25,7 +30,7 @@ kbd {
 em {
   font-style: normal;
   color: #000;
-  background-color: #fee;
+  background-color: #a1d5f8;
   padding: 0 0.2em;
   border-radius: 4px;
 }
@@ -48,14 +53,15 @@ textarea {
   font-size: inherit;
   letter-spacing: 0.05em;
   word-spacing: 0.3em;
+  color: #555;
 }
 
 input[type="text"]:focus,
 textarea:focus {
-  border-color: #080;
-  box-shadow: inset 1px 1px 3px 0 rgba(0, 128, 0, 0.4);
+  border-color: #08f;
+  box-shadow: inset 1px 1px 3px 0 rgba(0, 128, 255, 0.4);
   outline: none;
-  color: #000;
+  color: #004b7e;
 }
 
 input[type="text"] {
@@ -85,10 +91,13 @@ input[type="text"] {
 .tab-note li {
   list-style: none;
   padding: 0;
-  margin: 0;
-  line-height: 1;
-  width: 1em;
+  margin: 0 0 0.1em;
+  line-height: 0.85;
+  width: 0.8em;
+  height: 0.85em;
   text-align: center;
+  background-color: #fff;
+  border-radius: 50%;
 }
 
 .tab-note li:nth-child(4) {
@@ -99,6 +108,9 @@ input[type="text"] {
   position: relative;
   padding-top: 0.6em;
   white-space: no-wrap;
+  background: none;
+  border-radius: 0;
+  width: 1em;
 }
 
 .tab-note .sharp {
