@@ -52,42 +52,55 @@
     errorTemplate: D.querySelector('#tab-entry-error').innerHTML,
     spacerTemplate: '<span class="spacer"></span>',
 
-    noteMatcher: /-{2,3}.*(\n|$)|[a-g]#?\+{0,2}|\n| /g,
+    noteMatcher: /-{2,3}.*(\n|$)|[a-g]#?\+{0,2}|\n| /gi,
 
     fingerings: {
-      'D':   '------',
-      'D#':  '-----h',
-      'E':   '-----o',
-      'F':   '----ho',
-      'F#':  '----oo',
-      'G':   '---ooo',
-      'G#':  '--hooo',
-      'A':   '--oooo',
-      'A#':  '-hoooo',
-      'B':   '-ooooo',
-      'C':   'o--ooo',
-      'C#':  'oooooo',
+      'd':   '------',
+      'd#':  '-----h',
+      'e':   '-----o',
+      'f':   '----ho',
+      'f#':  '----oo',
+      'g':   '---ooo',
+      'g#':  '--hooo',
+      'a':   '--oooo',
+      'a#':  '-hoooo',
+      'b':   '-ooooo',
+      'c':   'o--ooo',
+      'c#':  'oooooo',
 
-      'D+':  'o-----',
-      'D#+': '-----h',
-      'E+':  '-----o',
-      'F+':  '----ho',
-      'F#+': '----oo',
-      'G+':  '---ooo',
-      'G#+': '--o--o',
-      'A+':  '--oooo',
-      'A#+': '-o-ooo',
-      'B+':  '-ooooo',
-      'C+':  'o-o---',
-      'C#+': 'ooo---',
+      'D':  'o-----',
+      'D#': '-----h',
+      'E':  '-----o',
+      'F':  '----ho',
+      'F#': '----oo',
+      'G':  '---ooo',
+      'G#': '--o--o',
+      'A':  '--oooo',
+      'A#': '-o-ooo',
+      'B':  '-ooooo',
+      'C':  'o-o---',
+      'C#': 'ooo---',
 
-      'D++':  'o-----',
-      'E++':  '-----o',
-      'F#++': '----oo',
-      'G++':  '---ooo',
-      'A++':  'o----o',
-      'B++':  '-ooooo',
-      'C#++': 'oooooo'
+      'd+':  'o-----',
+      'd#+': '-----h',
+      'e+':  '-----o',
+      'f+':  '----ho',
+      'f#+': '----oo',
+      'g+':  '---ooo',
+      'g#+': '--o--o',
+      'a+':  '--oooo',
+      'a#+': '-o-ooo',
+      'b+':  '-ooooo',
+      'c+':  'o-o---',
+      'c#+': 'ooo---',
+
+      'd++':  'o-----',
+      'e++':  '-----o',
+      'f#++': '----oo',
+      'g++':  '---ooo',
+      'a++':  'o----o',
+      'b++':  '-ooooo',
+      'c#++': 'oooooo'
     },
     symbolMap: {
       'o': '\u25cb', // white circle
@@ -105,6 +118,10 @@
       return para.outerHTML;
     },
     noteTemplate: function (note) {
+      // Uppercase notes are shorthand for `<note>+`
+      if (/[A-G]/.test(note)) {
+        note += '+';
+      }
       return note.
         replace('#', '<span class="sharp">\u266f</span>'). // sharp symbol
         replace('++', '<sup>@</sup>').
@@ -113,7 +130,6 @@
     },
     tabFromNote: function (note) {
       var fingers;
-      var noteLookup;
 
       if (note === '\n') {
         return '<div class="line-break"></div>';
@@ -135,10 +151,8 @@
         return this.commentFromNote(note, false);
       }
 
-      noteLookup = note.toUpperCase();
-
-      if (this.fingerings[noteLookup]) {
-        fingers = this.fingerings[noteLookup].split('');
+      if (this.fingerings[note]) {
+        fingers = this.fingerings[note].split('');
       } else {
         return this.errorTemplate;
       }
@@ -147,7 +161,7 @@
         var placeholder = '$' + index.toString();
         return html.replace(placeholder, this.symbolMap[finger]);
       }.bind(this), this.tabTemplate.concat()).
-        replace('$N', this.noteTemplate(noteLookup));
+        replace('$N', this.noteTemplate(note));
     },
     setTab: function (noteString) {
       var notes = noteString.match(this.noteMatcher);
