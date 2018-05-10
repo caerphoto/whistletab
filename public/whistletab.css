@@ -261,6 +261,7 @@ footer {
     color: #000;
     margin: 1em 2em;
     font-size: 14px;
+    background: none;
   }
 
   h1, p, textarea, form {
