@@ -31,11 +31,13 @@
 
   var input = {
     el: D.querySelector('#notes'),
+    spacing: D.querySelector('#spacing'),
     output: null,
 
     init: function (target) {
       this.output = target;
       this.el.addEventListener('input', this.updateOutput.bind(this));
+      this.spacing.addEventListener('input', this.updateSpacing.bind(this));
       this.el.focus();
     },
     setValue: function (newValue) {
@@ -45,8 +47,18 @@
     getValue: function () {
       return this.el.value;
     },
+    setSpacing: function (newValue) {
+      this.spacing.value = newValue || '0';
+      this.updateSpacing();
+    },
+    getSpacing: function () {
+      return this.spacing.value;
+    },
     updateOutput: function () {
       this.output.setTab(this.el.value);
+    },
+    updateSpacing: function () {
+      this.output.setSpacing(this.spacing.value);
     }
   };
 
@@ -184,6 +196,9 @@
       }, this);
 
       this.el.innerHTML = tabs.join('');
+    },
+    setSpacing: function (toValue) {
+      this.el.className = 'spacing' + toValue;
     }
   };
 
@@ -215,8 +230,8 @@
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
 
       this.fetchTabs(function () {
-        this.tabInput.setValue(this.savedTabs[0].tab);
-        this.printTitle.innerHTML = this.savedTabs[0].name;
+        this.loadTab();
+        //this.printTitle.innerHTML = this.savedTabs[0].name;
         this.renderSavedTabList();
       });
 
@@ -250,6 +265,7 @@
 
       this.savedTabs.push({
         tab: this.tabInput.getValue(),
+        spacing: this.tabInput.getSpacing(),
         name: this.nameInput.value
       });
 
@@ -268,10 +284,13 @@
     },
 
     loadTab: function (event) {
-      var isServerTab = event.target.id === this.serverTabsForm.id;
+      var isServerTab = event && event.target.id === this.serverTabsForm.id;
       var tabToLoad = this.getSelectedTab(isServerTab);
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
       this.tabInput.setValue(tabToLoad.tab);
+      this.tabInput.setSpacing(tabToLoad.spacing);
       this.printTitle.innerHTML = tabToLoad.name;
     },
 
@@ -282,6 +301,7 @@
       if (newName) {
         tabToOverwrite.name = newName;
         tabToOverwrite.tab = this.tabInput.getValue();
+        tabToOverwrite.spacing = this.tabInput.getSpacing();
         this.storeTabs();
         this.renderSavedTabList(this.getSelectedIndex());
       }

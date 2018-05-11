@@ -50,7 +50,7 @@ textarea, input[type="text"] {
 }
 
 textarea {
-  margin: 0 auto 1em;
+  margin: 0 auto 0.5em;
   width: 100%;
   height: 10em;
   font-family: 'Consolas', monospace;
@@ -88,7 +88,23 @@ input[type="text"] {
 
 .tab-note,
 .spacer {
-  width: 1.3em;
+  width: 1.2em;
+}
+
+.spacing1 .tab-note, .spacing1 .spacer { margin-right: 0.1em; }
+.spacing2 .tab-note, .spacing2 .spacer { margin-right: 0.2em; }
+.spacing3 .tab-note, .spacing3 .spacer { margin-right: 0.3em; }
+.spacing4 .tab-note, .spacing4 .spacer { margin-right: 0.4em; }
+.spacing5 .tab-note, .spacing5 .spacer { margin-right: 0.5em; }
+
+#spacing-label {
+  display: block;
+  margin-bottom: 0.7em;
+}
+
+#spacing {
+  margin-left: 0.5em;
+  width: 20em;
 }
 
 

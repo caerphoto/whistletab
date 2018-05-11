@@ -11,10 +11,11 @@
     <p>For <em>D-tuned</em> whistles. Use <kbd>#</kbd> after a note to indicate sharp, and <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves. Spaces and newlines can be used for grouping, and headings and lyrics can be added by starting a new line with <kbd>-&zwnj;-&zwnj;-&zwnj;</kbd> and <kbd>-&zwnj;-</kbd>.</p>
 
     <textarea id="notes" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+    <label id="spacing-label">Spacing: <input id="spacing" type="range" min="0" max="5" value="1"></label>
 
     <h1 class="print-only" id="print-title">(untitled)</h1>
 
-    <div id="tab"></div>
+    <div id="tab" class="spacing1"></div>
 
     <form id="save-tab-form" action="#">
       <label>
