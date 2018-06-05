@@ -222,6 +222,8 @@
     STORAGE_KEY: 'saved-tabs',
 
     init: function (input) {
+      var params = this.getHashParams();
+
       this.tabInput = input;
       this.saveTabForm.addEventListener('submit', this.saveTab.bind(this));
       this.savedTabsForm.addEventListener('submit', this.loadTab.bind(this));
@@ -229,13 +231,42 @@
       this.overwriteButton.addEventListener('click', this.overwriteTab.bind(this));
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
 
+      // Load and render user tabs list
       this.fetchTabs(function () {
-        this.loadTab();
-        //this.printTitle.innerHTML = this.savedTabs[0].name;
-        this.renderSavedTabList();
-      });
+        var initialIndex = 0;
 
-      this.renderSavedTabList(0, true);
+
+        if (params[0] === 'u') {
+          initialIndex = Math.min(params[1], this.savedTabs.length - 1);
+          this.renderSavedTabList(initialIndex);
+          this.renderSavedTabList(0, true);
+          this.loadTab();
+        } else {
+          initialIndex = Math.min(params[1], window.serverTabs.length - 1);
+          this.renderSavedTabList(0);
+          this.renderSavedTabList(initialIndex, true);
+          this.loadTab(null, true);
+        }
+      });
+    },
+
+    setHashParams: function (isServer, index) {
+      var params = [isServer ? 's' : 'u', index.toString()];
+      window.location.hash = params.join('');
+    },
+
+    getHashParams: function () {
+      var params;
+
+      if (window.location.hash) {
+        params = window.location.hash.slice(1).split('');
+      } else {
+        params = ['u', 0];
+      }
+
+      params[1] = parseInt(params[1], 10);
+
+      return params;
     },
 
     fetchTabs: function (whenDone) {
@@ -291,12 +322,19 @@
       return tabs[this.getSelectedIndex(useServerTabs)];
     },
 
-    loadTab: function (event) {
+    loadTab: function (event, forceServerTab) {
       var isServerTab = event && event.target.id === this.serverTabsForm.id;
-      var tabToLoad = this.getSelectedTab(isServerTab);
+      var tabToLoad;
+
+      isServerTab = isServerTab || forceServerTab;
+      tabToLoad = this.getSelectedTab(isServerTab);
+
       if (event) {
         event.preventDefault();
       }
+
+      this.setHashParams(isServerTab, this.getSelectedIndex(isServerTab));
+
       this.tabInput.setValue(tabToLoad.tab);
       this.tabInput.setSpacing(tabToLoad.spacing);
       this.printTitle.innerHTML = tabToLoad.name;
