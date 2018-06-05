@@ -129,16 +129,20 @@
       var commentWords = note.replace(/^-{2,3}(.*)\n/, '$1').split(' ');
       var para = D.createElement('p');
 
-      commentWords.forEach(function (word) {
-        var spacingWrapper = D.createElement('span');
-        var wordEl = D.createElement('span');
-        var textNode = D.createTextNode(word);
-        wordEl.appendChild(textNode);
-        wordEl.className = 'word';
-        spacingWrapper.className = 'spacer';
-        spacingWrapper.appendChild(wordEl);
-        para.appendChild(spacingWrapper);
-      });
+      if (isHeading) {
+        para.appendChild(D.createTextNode(note.slice(3)));
+      } else {
+        commentWords.forEach(function (word) {
+          var spacingWrapper = D.createElement('span');
+          var wordEl = D.createElement('span');
+          var textNode = D.createTextNode(word);
+          wordEl.appendChild(textNode);
+          wordEl.className = 'word';
+          spacingWrapper.className = 'spacer';
+          spacingWrapper.appendChild(wordEl);
+          para.appendChild(spacingWrapper);
+        });
+      }
       para.className = isHeading ? 'comment heading' : 'comment';
 
       return para.outerHTML;
@@ -187,7 +191,6 @@
       if (this.fingerings[note]) {
         fingers = this.fingerings[note].split('');
       } else {
-        console.log('Error rendering note', note);
         return this.errorTemplate;
       }
 

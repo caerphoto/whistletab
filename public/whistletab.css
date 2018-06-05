@@ -78,7 +78,7 @@ input[type="text"] {
 }
 
 #tab {
-  padding-left: 1em;
+  padding-left: 0.5em;
   margin-bottom: 1em;
   overflow: hidden;
 }
