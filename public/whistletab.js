@@ -10,6 +10,8 @@
     }
   ];
 
+  var APP_TITLE = 'Tin Whistle Tab Creator';
+
   var dataStore = W.dataStore ? W.dataStore : {
     getItem: function (key, callback) {
       var dataString = W.localStorage.getItem(key);
@@ -355,6 +357,7 @@
       this.tabInput.setValue(tabToLoad.tab);
       this.tabInput.setSpacing(tabToLoad.spacing);
       this.printTitle.innerHTML = tabToLoad.name;
+      D.title = tabToLoad.name + ' · ' + APP_TITLE;
     },
 
     overwriteTab: function () {
