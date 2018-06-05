@@ -356,8 +356,9 @@
 
       this.tabInput.setValue(tabToLoad.tab);
       this.tabInput.setSpacing(tabToLoad.spacing);
-      this.printTitle.innerHTML = tabToLoad.name;
       D.title = tabToLoad.name + ' · ' + APP_TITLE;
+      this.printTitle.innerHTML = tabToLoad.name;
+      this.printTitle.scrollIntoView(true, { behaviour: 'smooth' });
     },
 
     overwriteTab: function () {
