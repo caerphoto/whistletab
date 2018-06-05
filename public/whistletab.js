@@ -224,6 +224,7 @@
 
   var tabStorage = {
     nameInput: D.querySelector('#tab-name'),
+    sourceInput: D.querySelector('#tab-source'),
     savedTabList: D.querySelector('#tab-list'),
     serverTabList: D.querySelector('#server-tab-list'),
 
@@ -234,6 +235,7 @@
     serverTabsForm: D.querySelector('#server-tabs-form'),
 
     printTitle: D.querySelector('#print-title'),
+    tabSourceLink: D.querySelector('#tab-source-link'),
 
     tabInput: null,
 
@@ -316,7 +318,8 @@
       this.savedTabs.push({
         tab: this.tabInput.getValue(),
         spacing: this.tabInput.getSpacing(),
-        name: this.nameInput.value
+        name: this.nameInput.value,
+        sourceUrl: this.sourceInput.value
       });
 
       this.storeTabs();
@@ -341,6 +344,16 @@
       return tabs[this.getSelectedIndex(useServerTabs)];
     },
 
+    setSourceHeading: function (url) {
+      if (url) {
+        this.tabSourceLink.innerHTML = url;
+        this.tabSourceLink.href = url;
+      } else {
+        this.tabSourceLink.innerHTML = 'unknown';
+        this.tabSourceLink.href = '';
+      }
+    },
+
     loadTab: function (event, forceServerTab) {
       var isServerTab = event && event.target.id === this.serverTabsForm.id;
       var tabToLoad;
@@ -359,6 +372,7 @@
       D.title = tabToLoad.name + ' · ' + APP_TITLE;
       this.printTitle.innerHTML = tabToLoad.name;
       this.printTitle.scrollIntoView(true, { behaviour: 'smooth' });
+      this.setSourceHeading(tabToLoad.sourceUrl);
     },
 
     overwriteTab: function () {

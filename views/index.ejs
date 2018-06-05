@@ -14,6 +14,7 @@
     <label id="spacing-label">Spacing: <input id="spacing" type="range" min="0" max="10" value="1"></label>
 
     <h1 class="print-only" id="print-title">(untitled)</h1>
+    <h2>Source: <a id="tab-source-link"></a></h2>
 
     <div id="tab" class="spacing1"></div>
 
@@ -22,11 +23,15 @@
         Tab name:
         <input type="text" id="tab-name">
       </label>
+      <label>
+        Source:
+        <input type="url" id="tab-source">
+      </label>
 
       <button type="submit" id="save-tab">Save</button>
     </form>
 
-    <form id="saved-tabs-form" action="#" class="no-saved-tabs">
+    <form id="saved-tabs-form" action="#" class="no-saved-tabs tab-list">
       <fieldset>
         <legend>Your tabs</legend>
         <% if (!serverStore) { %>
@@ -42,9 +47,10 @@
       </fieldset>
     </form>
 
-    <form id="server-tabs-form" action="#">
+    <form id="server-tabs-form" action="#" class="tab-list">
       <fieldset>
         <legend>Ready-made tabs</legend>
+        <p>These are tabs I found around the internet and collected here. Currently in the process of adding attributions, bear with!</p>
         <div id="server-tab-list" class="tab-list"></div>
         <p><button type="submit" id="load-server-tab">Load tab</button></p>
       </fieldset>
