@@ -191,6 +191,7 @@ input[type="text"] {
 
 .comment .spacer {
   text-align: center;
+  height: 1em;
 }
 
 .comment + .comment,
