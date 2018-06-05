@@ -256,12 +256,11 @@
     },
 
     getHashParams: function () {
-      var params;
+      var params = ['u', 0];
 
       if (window.location.hash) {
-        params = window.location.hash.slice(1).split('');
-      } else {
-        params = ['u', 0];
+        params[0] = window.location.hash.slice(1, 2);
+        params[1] = window.location.hash.slice(2);
       }
 
       params[1] = parseInt(params[1], 10);
