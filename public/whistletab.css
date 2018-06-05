@@ -78,6 +78,7 @@ input[type="text"] {
 }
 
 #tab {
+  padding-left: 1em;
   margin-bottom: 1em;
   overflow: hidden;
 }
@@ -96,13 +97,13 @@ input[type="text"] {
 .spacing1 .tab-note, .spacing1 .spacer { margin-right: 0.1em; }
 .spacing2 .tab-note, .spacing2 .spacer { margin-right: 0.2em; }
 .spacing3 .tab-note, .spacing3 .spacer { margin-right: 0.3em; }
-.spacing4 .tab-note, .spacing4 .spacer { margin-right: 0.4em; }
-.spacing5 .tab-note, .spacing5 .spacer { margin-right: 0.5em; }
-.spacing6 .tab-note, .spacing6 .spacer { margin-right: 0.55em; }
-.spacing7 .tab-note, .spacing7 .spacer { margin-right: 0.60em; }
-.spacing8 .tab-note, .spacing8 .spacer { margin-right: 0.65em; }
-.spacing9 .tab-note, .spacing9 .spacer { margin-right: 0.70em; }
-.spacing10 .tab-note, .spacing10 .spacer { margin-right: 0.75em; }
+.spacing4 .tab-note, .spacing4 .spacer { margin-right: 0.50em; }
+.spacing5 .tab-note, .spacing5 .spacer { margin-right: 0.55em; }
+.spacing6 .tab-note, .spacing6 .spacer { margin-right: 0.60em; }
+.spacing7 .tab-note, .spacing7 .spacer { margin-right: 0.65em; }
+.spacing8 .tab-note, .spacing8 .spacer { margin-right: 0.70em; }
+.spacing9 .tab-note, .spacing9 .spacer { margin-right: 0.75em; }
+.spacing10 .tab-note, .spacing10 .spacer { margin-right: 0.8em; }
 
 #spacing-label {
   display: block;
@@ -164,9 +165,21 @@ input[type="text"] {
   color: #c00;
 }
 
+.slur {
+  float: left;
+  width: 0;
+  margin-top: 2.6em;
+  transform-origin: 20% 60%;
+  transform: rotate(-90deg);
+}
+
 .spacer {
   float: left;
-  height: 1em;
+  height: 1.5em;
+}
+
+.comment .spacer {
+  text-align: center;
 }
 
 .comment + .comment,
@@ -178,8 +191,16 @@ input[type="text"] {
   float: left;
   margin: 0 0 0.3em;
   white-space: pre;
-  font-size: 13px;
   letter-spacing: 0;
+  overflow: visible;
+}
+
+.comment .word {
+  font-family: 'IBM Plex Sans Condensed', 'Arial Narrow';
+  display: inline-block;
+  font-size: 13px;
+  margin-left: -.4em;
+  letter-spacing: -1px;
 }
 
 /* end of line comments */

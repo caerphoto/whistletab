@@ -67,8 +67,9 @@
     tabTemplate: D.querySelector('#tab-entry').innerHTML,
     errorTemplate: D.querySelector('#tab-entry-error').innerHTML,
     spacerTemplate: '<span class="spacer"></span>',
+    slurTemplate: '<span class="slur">(</span>',
 
-    noteMatcher: /-{2,3}.*(\n|$)|[a-g]#?\+{0,2}|\n| /gi,
+    noteMatcher: /-{2,3}.*(\n|$)|-|[a-g]#?\+{0,2}|\n| /gi,
 
     fingerings: {
       'd':   '------',
@@ -125,10 +126,19 @@
     },
 
     commentFromNote: function (note, isHeading) {
-      var comment = note.replace(/^-{2,3}(.*)\n/, '$1');
+      var commentWords = note.replace(/^-{2,3}(.*)\n/, '$1').split(' ');
       var para = D.createElement('p');
-      var text = D.createTextNode(comment);
-      para.appendChild(text);
+
+      commentWords.forEach(function (word) {
+        var spacingWrapper = D.createElement('span');
+        var wordEl = D.createElement('span');
+        var textNode = D.createTextNode(word);
+        wordEl.appendChild(textNode);
+        wordEl.className = 'word';
+        spacingWrapper.className = 'spacer';
+        spacingWrapper.appendChild(wordEl);
+        para.appendChild(spacingWrapper);
+      });
       para.className = isHeading ? 'comment heading' : 'comment';
 
       return para.outerHTML;
@@ -162,6 +172,10 @@
         return this.spacerTemplate;
       }
 
+      if (note === '-') {
+        return this.slurTemplate;
+      }
+
       if (/^---/.test(note)) {
         return this.commentFromNote(note, true);
       }
@@ -173,6 +187,7 @@
       if (this.fingerings[note]) {
         fingers = this.fingerings[note].split('');
       } else {
+        console.log('Error rendering note', note);
         return this.errorTemplate;
       }
 
@@ -199,6 +214,7 @@
     },
     setSpacing: function (toValue) {
       this.el.className = 'spacing' + toValue;
+      window.document.title = toValue;
     }
   };
 
