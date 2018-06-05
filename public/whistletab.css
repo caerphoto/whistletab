@@ -116,7 +116,7 @@ input[type="url"] {
 .tab-note {
   float: left;
   padding: 0;
-  margin: 0 0 0.4em 0;
+  margin: 0.5em 0 0.4em;
 }
 
 .tab-note,
@@ -183,7 +183,7 @@ input[type="url"] {
 
 .tab-note li sup {
   position: absolute;
-  top: -0.1em;
+  top: 0.1em;
   left: 0;
   width: 100%;
   text-align: center;
@@ -198,7 +198,7 @@ input[type="url"] {
 .slur {
   float: left;
   width: 0;
-  margin-top: 2.3em;
+  margin-top: 2.8em;
   transform-origin: 20% 60%;
   transform: rotate(-90deg);
   vertical-align: top;
@@ -231,7 +231,7 @@ input[type="url"] {
 
 .comment {
   float: left;
-  margin: 0 0 0.3em;
+  margin: 0;
   white-space: pre;
   letter-spacing: 0;
   overflow: visible;
@@ -274,6 +274,14 @@ input[type="url"] {
 .line-break + .line-break {
   height: 1em;
 }
+
+/* Display options */
+.lyric { display: none; }
+.show-lyrics .lyric { display: block; }
+li.tab-note { display: none; }
+.show-notes li.tab-note { display: block; }
+.slur, .finger { display: none; }
+.show-fingering .finger, .show-fingering .slur { display: block; }
 
 form {
   box-sizing: border-box;

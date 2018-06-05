@@ -145,7 +145,7 @@
           para.appendChild(spacingWrapper);
         });
       }
-      para.className = isHeading ? 'comment heading' : 'comment';
+      para.className = isHeading ? 'comment heading' : 'comment lyric';
 
       return para.outerHTML;
     },
@@ -435,7 +435,13 @@
   input.init(tab);
   tabStorage.init(input);
 
-  D.querySelector('#white-background').addEventListener('change', function () {
-    D.body.classList.toggle('white-background', this.checked);
+  D.querySelector('#display-options').addEventListener('change', function (event) {
+    var checkbox;
+    if (event.target.nodeName !== 'INPUT') {
+      return;
+    }
+
+    checkbox = event.target;
+    D.body.classList.toggle(checkbox.id, checkbox.checked);
   });
 }(window, window.document));

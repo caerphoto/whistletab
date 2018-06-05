@@ -6,7 +6,7 @@
     <link href="/whistletab/whistletab.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/whistletab/favicon.png">
   </head>
-  <body class="<%= serverStore ? 'server-store' : '' %>">
+  <body class="<%= serverStore ? 'server-store' : '' %> show-notes show-fingering show-lyrics">
     <h1>Tin Whistle Tab Creator</h1>
     <p>For <em>D-tuned</em> whistles. Use <kbd>#</kbd> after a note to indicate sharp, and <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves. Spaces and newlines can be used for grouping, and headings and lyrics can be added by starting a new line with <kbd>-&zwnj;-&zwnj;-&zwnj;</kbd> and <kbd>-&zwnj;-</kbd>.</p>
 
@@ -56,15 +56,21 @@
       </fieldset>
     </form>
 
-    <label class="break-float"><input type="checkbox" id="white-background"> White background</label>
+    <fieldset id="display-options">
+      <legend>Display options</legend>
+      <label class="break-float"><input type="checkbox" id="white-background"> White background</label>
+      <label class="break-float"><input type="checkbox" checked id="show-fingering"> Show fingering</label>
+      <label class="break-float"><input type="checkbox" checked id="show-notes"> Show notes</label>
+      <label class="break-float"><input type="checkbox" checked id="show-lyrics"> Show lyrics</label>
+    </fieldset>
 
     <template id="tab-entry"><ul class="tab-note">
-        <li>$0</li>
-        <li>$1</li>
-        <li>$2</li>
-        <li>$3</li>
-        <li>$4</li>
-        <li>$5</li>
+        <li class="finger">$0</li>
+        <li class="finger">$1</li>
+        <li class="finger">$2</li>
+        <li class="finger">$3</li>
+        <li class="finger">$4</li>
+        <li class="finger">$5</li>
         <li class="tab-note">$N</li>
       </ul></template>
 
