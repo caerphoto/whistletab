@@ -276,7 +276,15 @@
 
     getSelectedIndex: function (useServerTabs) {
       var form = useServerTabs ? this.serverTabsForm : this.savedTabsForm;
-      return parseInt(form.elements['selected-tab-index'].value, 10);
+      var elements = form.elements['selected-tab-index'];
+      var i;
+      for (i = 0; i < elements.length; i += 1) {
+        if (elements[i].checked) {
+          return parseInt(elements[i].value, 10);
+        }
+      }
+
+      return 0;
     },
     getSelectedTab: function (useServerTabs) {
       var tabs = useServerTabs ? window.serverTabs : this.savedTabs;
@@ -354,7 +362,7 @@
   input.init(tab);
   tabStorage.init(input);
 
-  D.querySelector('#white-background').addEventListener('change', function (evt) {
+  D.querySelector('#white-background').addEventListener('change', function () {
     D.body.classList.toggle('white-background', this.checked);
   });
 }(window, window.document));

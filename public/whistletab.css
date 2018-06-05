@@ -53,11 +53,13 @@ textarea {
   margin: 0 auto 0.5em;
   width: 100%;
   height: 10em;
-  font-family: 'Consolas', monospace;
-  font-size: inherit;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 0.9em;
   letter-spacing: 0.05em;
-  word-spacing: 0.3em;
+  word-spacing: 0;
   color: #555;
+  overflow: auto;
+  white-space: pre;
 }
 
 input[type="text"]:focus,
@@ -96,6 +98,11 @@ input[type="text"] {
 .spacing3 .tab-note, .spacing3 .spacer { margin-right: 0.3em; }
 .spacing4 .tab-note, .spacing4 .spacer { margin-right: 0.4em; }
 .spacing5 .tab-note, .spacing5 .spacer { margin-right: 0.5em; }
+.spacing6 .tab-note, .spacing6 .spacer { margin-right: 0.55em; }
+.spacing7 .tab-note, .spacing7 .spacer { margin-right: 0.60em; }
+.spacing8 .tab-note, .spacing8 .spacer { margin-right: 0.65em; }
+.spacing9 .tab-note, .spacing9 .spacer { margin-right: 0.70em; }
+.spacing10 .tab-note, .spacing10 .spacer { margin-right: 0.75em; }
 
 #spacing-label {
   display: block;
@@ -171,8 +178,8 @@ input[type="text"] {
   float: left;
   margin: 0 0 0.3em;
   white-space: pre;
-  font-size: 0.8em;
-  letter-spacing: -0.05em;
+  font-size: 13px;
+  letter-spacing: 0;
 }
 
 /* end of line comments */
