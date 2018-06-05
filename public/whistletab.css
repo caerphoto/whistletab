@@ -171,7 +171,18 @@ input[type="text"] {
   margin-top: 2.6em;
   transform-origin: 20% 60%;
   transform: rotate(-90deg);
+  vertical-align: top;
 }
+
+.spacing2 .slur { transform: rotate(-90deg) translateY(-0.1em); }
+.spacing3 .slur { transform: rotate(-90deg) translateY(-0.2em); }
+.spacing4 .slur { transform: rotate(-90deg) translateY(-0.3em); }
+.spacing5 .slur { transform: rotate(-90deg) translateY(-0.3em); }
+.spacing6 .slur { transform: rotate(-90deg) translateY(-0.3em); }
+.spacing7 .slur { transform: rotate(-90deg) translateY(-0.3em); }
+.spacing8 .slur { transform: rotate(-90deg) translateY(-0.4em); }
+.spacing9 .slur { transform: rotate(-90deg) translateY(-0.4em); }
+.spacing10 .slur { transform: rotate(-90deg) translateY(-0.4em); }
 
 .spacer {
   float: left;
