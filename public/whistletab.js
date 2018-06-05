@@ -214,7 +214,6 @@
     },
     setSpacing: function (toValue) {
       this.el.className = 'spacing' + toValue;
-      window.document.title = toValue;
     }
   };
 
