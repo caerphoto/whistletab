@@ -71,7 +71,7 @@
     spacerTemplate: '<span class="spacer"></span>',
     slurTemplate: '<span class="slur">(</span>',
 
-    noteMatcher: /-{2,3}.*(\n|$)|-|[a-g]#?\+{0,2}|\n| /gi,
+    noteMatcher: /-{2,3}.*$|-|[a-g]#?\+{0,2}|\n| /gi,
 
     fingerings: {
       'd':   '------',
@@ -128,7 +128,7 @@
     },
 
     commentFromNote: function (note, isHeading) {
-      var commentWords = note.replace(/^-{2,3}(.*)\n/, '$1').split(' ');
+      var commentWords = note.replace(/^-{2,3}(.*)$/, '$1').split(' ');
       var para = D.createElement('p');
 
       if (isHeading) {
@@ -202,14 +202,21 @@
       }.bind(this), this.tabTemplate.concat()).
         replace('$N', this.noteTemplate(note));
     },
-    setTab: function (noteString) {
-      var notes = noteString.match(this.noteMatcher);
+    setTab: function (inputString) {
+      var self = this;
+      var lines = inputString.split('\n');
+      var notes;
       var tabs;
 
-      if (!notes || notes.length === 0) {
+      if (lines.length === 0) {
         this.el.innerHTML = '';
         return;
       }
+
+      notes = lines.reduce(function (n, line) {
+        if (line === '') return n.concat('\n');
+        return n.concat(line.match(self.noteMatcher), '\n');
+      }, []);
 
       tabs = notes.map(function (note) {
         return this.tabFromNote(note);
