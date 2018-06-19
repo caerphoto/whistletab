@@ -258,6 +258,11 @@ input[type="url"] {
   margin-bottom: 0.4em;
 }
 
+.comment.text {
+  font-size: 0.9em;
+  color: #000;
+}
+
 .line-break {
   width: 1em;
   height: 0;

@@ -71,7 +71,7 @@
     spacerTemplate: '<span class="spacer"></span>',
     slurTemplate: '<span class="slur">(</span>',
 
-    noteMatcher: /-{2,3}.*$|-|[a-g]#?\+{0,2}|\n| /gi,
+    noteMatcher: /^-{1,3}.*$|-|[a-g]#?\+{0,2}|\n| /gi,
 
     fingerings: {
       'd':   '------',
@@ -127,26 +127,29 @@
       'h': '\u25d1'  // circle with right half black
     },
 
-    commentFromNote: function (note, isHeading) {
-      var commentWords = note.replace(/^-{2,3}(.*)$/, '$1').split(' ');
+    lyricsFromNote: function (note) {
+      var commentWords = note.replace(/^--(.*)$/, '$1').split(' ');
       var para = D.createElement('p');
 
-      if (isHeading) {
-        para.appendChild(D.createTextNode(note.slice(3)));
-      } else {
-        commentWords.forEach(function (word) {
-          var spacingWrapper = D.createElement('span');
-          var wordEl = D.createElement('span');
-          var textNode = D.createTextNode(word);
-          wordEl.appendChild(textNode);
-          wordEl.className = 'word';
-          spacingWrapper.className = 'spacer';
-          spacingWrapper.appendChild(wordEl);
-          para.appendChild(spacingWrapper);
-        });
-      }
-      para.className = isHeading ? 'comment heading' : 'comment lyric';
+      commentWords.forEach(function (word) {
+        var spacingWrapper = D.createElement('span');
+        var wordEl = D.createElement('span');
+        var textNode = D.createTextNode(word);
+        wordEl.appendChild(textNode);
+        wordEl.className = 'word';
+        spacingWrapper.className = 'spacer';
+        spacingWrapper.appendChild(wordEl);
+        para.appendChild(spacingWrapper);
+      });
+      para.className = 'comment lyric';
 
+      return para.outerHTML;
+    },
+    commentFromNote: function (note, isHeading) {
+      var para = D.createElement('p');
+      var text = note.replace(/^-{1,3}(.*)$/, '$1');
+      para.appendChild(D.createTextNode(text));
+      para.className = isHeading ? 'comment heading' : 'comment text';
       return para.outerHTML;
     },
     noteTemplate: function (note) {
@@ -187,7 +190,11 @@
       }
 
       if (/^--/.test(note)) {
-        return this.commentFromNote(note, false);
+        return this.lyricsFromNote(note, false);
+      }
+
+      if (/^-/.test(note)) {
+        return this.commentFromNote(note);
       }
 
       if (this.fingerings[note]) {
