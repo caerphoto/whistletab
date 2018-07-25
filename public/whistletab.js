@@ -119,7 +119,15 @@
       'g++':  '---ooo',
       'a++':  'o----o',
       'b++':  '-ooooo',
-      'c#++': 'oooooo'
+      'c#++': 'oooooo',
+
+      'D+':  'o-----',
+      'E+':  '-----o',
+      'F#+': '----oo',
+      'G+':  '---ooo',
+      'A+':  'o----o',
+      'B+':  '-ooooo',
+      'C#+': 'oooooo'
     },
     symbolMap: {
       'o': '\u25cb', // white circle
@@ -153,18 +161,28 @@
       return para.outerHTML;
     },
     noteTemplate: function (note) {
+      var htmlNote;
+      var octave = '';
+
+      if (/[a-g](#)?\+/.test(note)) {
+        note = note.toUpperCase().slice(0, -1);
+      }
       // Uppercase notes are shorthand for `<note>+`
       if (/[A-G]/.test(note)) {
-        note += '+';
+        octave = '+';
       }
       if (/\+/.test(note)) {
-        note = note.toUpperCase();
+        note = note.toUpperCase().slice(0, -1);
+        octave = '++';
       }
-      return note.
-        replace('#', '<span class="sharp">\u266f</span>'). // sharp symbol
-        replace('++', '<sup>@</sup>').
-        replace('+', '<sup>+</sup>').
-        replace('@', '++');
+
+      htmlNote = '<span class="tab-note--letter">' + note + '</span>';
+      htmlNote = htmlNote.replace('#', '<span class="sharp">\u266f</span>'); // sharp symbol
+      if (octave) {
+        htmlNote += '<sup>' + octave + '</sup>';
+      }
+
+      return htmlNote;
     },
     tabFromNote: function (note) {
       var fingers;
@@ -266,6 +284,8 @@
       this.serverTabsForm.addEventListener('submit', this.loadTab.bind(this));
       this.overwriteButton.addEventListener('click', this.overwriteTab.bind(this));
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
+      this.savedTabsForm.addEventListener('click', this.toggleCollapse.bind(this));
+      this.serverTabsForm.addEventListener('click', this.toggleCollapse.bind(this));
 
       // Load and render user tabs list
       this.fetchTabs(function () {
@@ -443,6 +463,22 @@
 
       tabList.innerHTML = '';
       tabList.appendChild(frag);
+    },
+
+    toggleCollapse: function (event) {
+      var form;
+      if (!event.target.matches('.tab-list legend')) return;
+      switch (event.target.getAttribute('data-form-name')) {
+        case 'user':
+          form = this.savedTabsForm;
+          break;
+        case 'server':
+          form = this.serverTabsForm;
+          break;
+        default:
+          return;
+      }
+      form.classList.toggle('collapsed');
     }
   };
 

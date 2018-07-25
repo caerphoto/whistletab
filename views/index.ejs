@@ -33,7 +33,7 @@
 
     <form id="saved-tabs-form" action="#" class="no-saved-tabs tab-list">
       <fieldset>
-        <legend>Your tabs</legend>
+        <legend data-form-name="user">Your tabs</legend>
         <% if (!serverStore) { %>
           <p>These tabs are saved in your browser's local storage.</p>
         <% } %>
@@ -41,18 +41,22 @@
           <label><input type="radio" name="selected-tab-index" value="0" checked>
             Some tab name</label>
         </div>
-        <p><button type="submit" id="load-tab">Load tab</button>
-        <button type="button" id="overwrite-tab" class="warning">Overwrite tab</button>
-        <button type="button" id="delete-tab" class="danger">Delete tab</button></p>
+        <div class="form-buttons">
+          <button type="submit" id="load-tab">Load tab</button>
+          <button type="button" id="overwrite-tab" class="warning">Overwrite tab</button>
+          <button type="button" id="delete-tab" class="danger">Delete tab</button>
+        </div>
       </fieldset>
     </form>
 
     <form id="server-tabs-form" action="#" class="tab-list">
       <fieldset>
-        <legend>Ready-made tabs</legend>
-        <p>These are tabs I found around the internet and collected here. Currently in the process of adding attributions, bear with!</p>
+        <legend data-form-name="server">Ready-made tabs</legend>
+        <p>These are tabs I found around the internet and collected here.</p>
         <div id="server-tab-list" class="tab-list"></div>
-        <p><button type="submit" id="load-server-tab">Load tab</button></p>
+        <div class="form-buttons">
+          <button type="submit" id="load-server-tab">Load tab</button>
+        </div>
       </fieldset>
     </form>
 
@@ -71,7 +75,7 @@
         <li class="finger">$3</li>
         <li class="finger">$4</li>
         <li class="finger">$5</li>
-        <li class="tab-note">$N</li>
+        <li class="tab-note-text">$N</li>
       </ul></template>
 
     <template id="tab-entry-error">
