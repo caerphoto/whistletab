@@ -80,9 +80,9 @@
       'f':   '----ho',
       'f#':  '----oo',
       'g':   '---ooo',
-      'g#':  '--hooo',
+      'g#':  '--Hooo',
       'a':   '--oooo',
-      'a#':  '-hoooo',
+      'a#':  '-Hoooo',
       'b':   '-ooooo',
       'c':   'o--ooo',
       'c#':  'oooooo',
@@ -132,6 +132,7 @@
     symbolMap: {
       'o': '\u25cb', // white circle
       '-': '\u25cf', // black circle
+      'H': '\u25d0', // circle with left half black
       'h': '\u25d1'  // circle with right half black
     },
 
