@@ -12,7 +12,7 @@
 
   var APP_TITLE = 'Tin Whistle Tab Creator';
 
-  var dataStore = W.dataStore ? W.dataStore : {
+  var dataStore = W.dataStore || {
     getItem: function (key, callback) {
       var dataString = W.localStorage.getItem(key);
       if (typeof callback === 'function') {
@@ -281,8 +281,12 @@
 
       this.tabInput = input;
       this.saveTabForm.addEventListener('submit', this.saveTab.bind(this));
+
       this.savedTabsForm.addEventListener('submit', this.loadTab.bind(this));
       this.serverTabsForm.addEventListener('submit', this.loadTab.bind(this));
+      this.savedTabsForm.addEventListener('dblclick', this.loadTab.bind(this));
+      this.serverTabsForm.addEventListener('dblclick', this.loadTab.bind(this));
+
       this.overwriteButton.addEventListener('click', this.overwriteTab.bind(this));
       this.deleteButton.addEventListener('click', this.deleteTab.bind(this));
       this.savedTabsForm.addEventListener('click', this.toggleCollapse.bind(this));
@@ -390,10 +394,10 @@
     },
 
     loadTab: function (event, forceServerTab) {
-      var isServerTab = event && event.target.id === this.serverTabsForm.id;
+      var isServerTab = event && event.currentTarget === this.serverTabsForm;
       var tabToLoad;
 
-      isServerTab = isServerTab || forceServerTab;
+      isServerTab = !!(isServerTab || forceServerTab);
       tabToLoad = this.getSelectedTab(isServerTab);
 
       if (event) {
