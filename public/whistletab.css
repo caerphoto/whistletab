@@ -302,10 +302,15 @@ input[type="url"] {
 /* Display options */
                 .lyric { display: none; }
 .show-lyrics    .lyric { display: block; }
+
                 .tab-note li.tab-note-text { height: 0; }
 .show-notes     .tab-note li.tab-note-text { height: auto; }
+
                 .tab-note--letter { display: none; }
+                .tab-note--letter + sup { display: none; }
 .show-notes     .tab-note--letter { display: inline; }
+.show-notes     .tab-note--letter + sup { display: inline; }
+
                 .slur, .finger { display: none; }
 .show-fingering .finger, .show-fingering .slur { display: block; }
 
