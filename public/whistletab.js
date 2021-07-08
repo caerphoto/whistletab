@@ -199,7 +199,7 @@
       if (note === '\n' && prevWasNote) {
         var staff = this.staffFromNotes(staffNotes);
         staffNotes.length = 0;
-        return staff;
+        return staff + '<div class="line-break"></div>';
       }
 
       if (note === '\n') {
