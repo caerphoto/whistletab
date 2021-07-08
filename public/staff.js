@@ -102,6 +102,10 @@
         0.5;
     },
 
+    pitchY: function (note) {
+      return this.noteY(note) + this.LINE_SPACE / 2.1;
+    },
+
     drawBarLine: function (x) {
       this.svg.appendChild(svgEl('line', {
         x1: x,
@@ -161,25 +165,20 @@
 
     },
 
-    drawPitchSign: function (pos, sign) {
+    drawPitchSign: function (note, xPos, sign) {
       this.svg.appendChild(svgEl('text', {
-        x: pos.x,
-        y: pos.y,
+        x: xPos,
+        y: this.pitchY(note),
         'class': 'pitch-sign'
       }, sign));
 
     },
 
     drawKey: function () {
-      const space = this.LINE_SPACE;
       let x = this.NOTE_X_OFFSET - this.NOTE_WIDTH * 1.4;
-      let y = this.noteY('f#+') + space / 2;
-
-      this.drawPitchSign({ x: x, y: y }, '♯');
-
-      y = this.noteY('c#') + space / 2;
+      this.drawPitchSign('f#+', x, '♯');
       x += this.NOTE_WIDTH / 4;
-      this.drawPitchSign({ x: x, y: y }, '♯');
+      this.drawPitchSign('c#', x, '♯');
     },
 
     drawNotes: function () {
@@ -191,7 +190,7 @@
         const space = this.LINE_SPACE;
         let stemSize = space * 3.5;
         let stemOffset = space / 1.8 - 1.1;
-        const pitchSignPos = { x: x - space * 1.75, y: y + space / 2 };
+        const pitchSignX = x - space * 1.75;
 
         if (note === '-') return;
 
@@ -210,11 +209,11 @@
           }));
 
           if (/[abdeg]#/.test(note)) {
-            this.drawPitchSign(pitchSignPos, '♯');
+            this.drawPitchSign(note, pitchSignX, '♯');
           }
 
           if (/[cf]\+?\+?$/.test(note)) {
-            this.drawPitchSign(pitchSignPos, '♮');
+            this.drawPitchSign(note, pitchSignX, '♮');
           }
 
           if (/[bc]#?$|[a-g]#?\+$|[a-g]#?\+/.test(note)) {
