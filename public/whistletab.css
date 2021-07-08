@@ -285,6 +285,20 @@ input[type="url"] {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
+.white-background .staff {
+  box-shadow: none;
+}
+
+.staff .pitch-sign {
+  font: inherit;
+  font-size: 1em;
+  stroke: rgba(0, 0, 0, 0.2);
+}
+
+.staff line {
+  stroke-width: 1px;
+}
+
 /* Display options */
                 .lyric { display: none; }
 .show-lyrics    .lyric { display: block; }
@@ -454,5 +468,9 @@ footer {
   }
   a::after {
     content: ' (' attr(href) ')';
+  }
+
+  .staff {
+    box-shadow: none;
   }
 }

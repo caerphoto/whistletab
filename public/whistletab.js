@@ -188,7 +188,7 @@
       return htmlNote;
     },
     staffFromNotes: function (notes) {
-      return (new window.Staff(notes)).toHtml();
+      return (new window.Staff(notes, this.spacing)).toHtml();
     },
     tabFromNote: function (note, staffNotes, prevWasNote) {
       // staffNotes is a list of notes that this function modifies. Each
@@ -272,6 +272,7 @@
       this.el.innerHTML = tabs.join('');
     },
     setSpacing: function (toValue) {
+      this.spacing = toValue;
       this.el.className = 'spacing' + toValue;
     }
   };
