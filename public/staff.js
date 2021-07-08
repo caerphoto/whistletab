@@ -197,7 +197,7 @@
 
         if (note === ' ') {
           if (prevNote !== note) {
-            this.drawBarLine(x);
+            this.drawBarLine(x + 0.5);
             noteIndex += 1;
           }
         } else {
