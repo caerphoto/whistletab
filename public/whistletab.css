@@ -277,6 +277,14 @@ input[type="url"] {
   height: 1em;
 }
 
+.staff {
+  display: none;
+  clear: both;
+  background-color: white;
+  margin-bottom: 0.5em;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
 /* Display options */
                 .lyric { display: none; }
 .show-lyrics    .lyric { display: block; }
@@ -286,6 +294,8 @@ input[type="url"] {
 .show-notes     .tab-note--letter { display: inline; }
                 .slur, .finger { display: none; }
 .show-fingering .finger, .show-fingering .slur { display: block; }
+
+.show-staves .staff { display: block; }
 
 form {
   box-sizing: border-box;

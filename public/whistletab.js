@@ -1,3 +1,5 @@
+/*eslint indent: ["warn", 2] */
+/*global Staff*/
 (function (W, D) {
   var DEFAULT_TABS = [
     {
@@ -185,8 +187,20 @@
 
       return htmlNote;
     },
-    tabFromNote: function (note) {
+    staffFromNotes: function (notes) {
+      return (new window.Staff(notes)).toHtml();
+    },
+    tabFromNote: function (note, staffNotes, prevWasNote) {
+      // staffNotes is a list of notes that this function modifies. Each
+      // note, space and slur is added to it, and when a line break is reached,
+      // a staff is added and the list is reset.
       var fingers;
+
+      if (note === '\n' && prevWasNote) {
+        var staff = this.staffFromNotes(staffNotes);
+        staffNotes.length = 0;
+        return staff;
+      }
 
       if (note === '\n') {
         return '<div class="line-break"></div>';
@@ -197,10 +211,12 @@
       }
 
       if (note === ' ') {
+        staffNotes.push(note);
         return this.spacerTemplate;
       }
 
       if (note === '-') {
+        staffNotes.push(note);
         return this.slurTemplate;
       }
 
@@ -217,6 +233,7 @@
       }
 
       if (this.fingerings[note]) {
+        staffNotes.push(note);
         fingers = this.fingerings[note].split('');
       } else {
         return this.errorTemplate;
@@ -232,7 +249,9 @@
       var self = this;
       var lines = inputString.split('\n');
       var notes;
+      var staffNotes = [];
       var tabs;
+      var prevWasNote = false;
 
       if (lines.length === 0) {
         this.el.innerHTML = '';
@@ -245,7 +264,9 @@
       }, []);
 
       tabs = notes.map(function (note) {
-        return this.tabFromNote(note);
+        var mapped = this.tabFromNote(note, staffNotes, prevWasNote);
+        prevWasNote = !!this.fingerings[note];
+        return mapped;
       }, this);
 
       this.el.innerHTML = tabs.join('');
