@@ -181,11 +181,22 @@
 
     },
 
-    drawKey: function () {
+    drawKey: function (key) {
+      const keySignatures = {
+        'c': [],
+        'g': ['f#+'],
+        'd': ['f#+', 'c#'],
+        'a': ['f#+', 'c#', 'g#+']
+      };
       let x = this.NOTE_X_OFFSET - this.NOTE_WIDTH * 1.4;
-      this.drawPitchSign('f#+', x, '♯');
-      x += this.NOTE_WIDTH / 4;
-      this.drawPitchSign('c#', x, '♯');
+
+      if (!keySignatures[key]) return;
+
+      keySignatures[key].forEach(function (sig) {
+        let sign = /#/.test(sig) ? '♯' : '♭';
+        this.drawPitchSign(sig, x, sign);
+        x += this.NOTE_WIDTH / 4;
+      }, this);
     },
 
     drawNotes: function () {
@@ -246,7 +257,7 @@
     render: function () {
       this.drawLines();
       this.drawClef();
-      this.drawKey();
+      this.drawKey('d');
       this.drawNotes();
     },
 
