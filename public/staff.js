@@ -33,24 +33,28 @@
   }
 
   Staff.prototype = {
-    calculateWidth: function () {
-      const staff = this;
-      let lastNote = ' ';
-
-      // Collapse notes, i.e. remove sequences of more than one space
-      this.notes = this.notes.reduce(function (acc, note) {
-        if (note === ' ') {
-          if (lastNote !== ' ') {
+    collapsedNotes: function () {
+      // Remove sequences of more than one space
+      if (!this._collapsedNotes) {
+        let lastNote = '';
+        this._collapsedNotes = this.notes.reduce(function (acc, note) {
+          if (note === ' ') {
+            if (lastNote !== ' ') {
+              acc.push(note);
+            }
+          } else {
             acc.push(note);
           }
-        } else {
-          acc.push(note);
-        }
-        lastNote = note;
-        return acc;
-      }, []);
+          lastNote = note;
+          return acc;
+        }, []);
+      }
+      return this._collapsedNotes;
+    },
+    calculateWidth: function () {
+      const staff = this;
 
-      this.width = this.notes.reduce(function (sum, note) {
+      this.width = this.collapsedNotes().reduce(function (sum, note) {
         if (note === '-') return sum;
         return sum + staff.NOTE_WIDTH;
       }, 0) + this.PAD_X * 2 + this.NOTE_X_OFFSET;
@@ -89,7 +93,7 @@
     },
 
     noteY: function (note) {
-      const scale = 'd e f g a b c D E F G A B C'.split(' ');
+      const scale = 'd e f g a b c'.split(' ');
       const natural = note.charAt(0);
       let offset = scale.indexOf(natural.toLowerCase());
 
@@ -137,32 +141,35 @@
 
     },
 
+    drawLedgerLine: function (x, y) {
+      const ledgerScale = 1.4;
+
+      this.svg.appendChild(svgEl('line', {
+        x1: x - this.LINE_SPACE / ledgerScale,
+        x2: x + this.LINE_SPACE / ledgerScale,
+        y1: y,
+        y2: y,
+        stroke: 'black'
+      }));
+    },
     drawLedgerLines: function (note, x) {
       const natural = note.replace('#', '');
-      const ledgerScale = 1.4;
-      const y = this.noteY(note);
-      const space = this.LINE_SPACE;
+      let ledgerNotes = [];
+      let noteIndex;
+      let offset = 0;
 
-      if (/[ac]\+$/.test(natural)) {
-        this.svg.appendChild(svgEl('line', {
-          x1: x - space / ledgerScale,
-          x2: x + space / ledgerScale,
-          y1: y + space / 2,
-          y2: y + space / 2,
-          stroke: 'black'
-        }));
+      if (/[b]\+$|[dfac]\+\+/.test(natural)) {
+        ledgerNotes = 'b+ d++ f++ a ++ c++'.split(' ');
+        offset = this.LINE_SPACE / 2;
+      } else if (/[ac]\+$|[egb]\+\+$/.test(natural)) {
+        ledgerNotes = 'a+ c+ e++ g++ b++'.split(' ');
       }
 
-      if (/[gb]\+$|[dfac]\+\+/.test(natural)) {
-        this.svg.appendChild(svgEl('line', {
-          x1: x - space / ledgerScale,
-          x2: x + space / ledgerScale,
-          y1: y,
-          y2: y,
-          stroke: 'black'
-        }));
-      }
+      noteIndex = ledgerNotes.indexOf(natural) + 1;
 
+      ledgerNotes.slice(0, noteIndex).forEach(function (ln) {
+        this.drawLedgerLine(x, this.noteY(ln) + offset);
+      }, this);
     },
 
     drawPitchSign: function (note, xPos, sign) {
