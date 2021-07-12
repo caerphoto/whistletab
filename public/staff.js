@@ -17,16 +17,21 @@
     return el;
   }
 
-  function Staff(notes) {
+  function Staff(notes, showNotes) {
     this.svg = D.createElement('svg');
     this.notes = notes;
+    this.showNotes = !!showNotes;
 
     //this.NOTE_WIDTH = (noteWidth * DEFAULT_SPACING) || 60;
     this.NOTE_WIDTH = 30;
     this.STAFF_HEIGHT = 100;
+    this.PAD_B = 20;
+    if (this.showNotes) {
+      this.STAFF_HEIGHT = 120;
+      this.PAD_B = 40;
+    }
     this.PAD_X = 10;
     this.PAD_T = 40;
-    this.PAD_B = 20;
     this.NOTE_X_OFFSET = this.PAD_X + this.NOTE_WIDTH * 1.5;
     this.LINE_SPACE = (this.STAFF_HEIGHT - this.PAD_T - this.PAD_B) / 4;
     this.init();
@@ -58,6 +63,7 @@
         if (note === '-') return sum;
         return sum + staff.NOTE_WIDTH;
       }, 0) + this.PAD_X * 2 + this.NOTE_X_OFFSET;
+      this.width = this.NOTE_WIDTH * 11 + (this.PAD_X * 2 + this.NOTE_X_OFFSET);
       return this.width;
     },
 
@@ -142,11 +148,11 @@
     },
 
     drawLedgerLine: function (x, y) {
-      const ledgerScale = 1.4;
+      const ledgerScale = 1.8;
 
       this.svg.appendChild(svgEl('line', {
-        x1: x - this.LINE_SPACE / ledgerScale,
-        x2: x + this.LINE_SPACE / ledgerScale,
+        x1: x - (this.LINE_SPACE/2) * ledgerScale,
+        x2: x + (this.LINE_SPACE/2) * ledgerScale,
         y1: y,
         y2: y,
         stroke: 'black'
@@ -207,7 +213,7 @@
         const y = this.noteY(note);
         const space = this.LINE_SPACE;
         let stemSize = space * 3.5;
-        let stemOffset = space / 1.8 - 1.1;
+        let stemOffset = Math.round(space / 1.7) - 0.5;
         const pitchSignX = x - space * 1.75;
 
         if (note === '-') return;
@@ -221,8 +227,8 @@
           this.svg.appendChild(svgEl('ellipse', {
             cx: x,
             cy: y,
-            rx: space / 1.8,
-            ry: space / 2.8,
+            rx: space / 1.6,
+            ry: space / 2.5,
             transform: `rotate(-20 ${x} ${y})`
           }));
 
@@ -241,12 +247,21 @@
           this.svg.appendChild(svgEl('line', {
             x1: x + stemOffset,
             x2: x + stemOffset,
-            y1: y,
-            y2: y - stemSize,
+            y1: y + (stemSize < 0 ? 1.2 : -1.2),
+            y2: y - stemSize + 1,
             stroke: 'black'
           }));
 
           this.drawLedgerLines(note, x);
+
+          if (this.showNotes) {
+            this.svg.appendChild(svgEl('text', {
+              x: x - space / 2,
+              y: this.STAFF_HEIGHT - 7,
+              'class': 'pitch-sign'
+            }, note.charAt(0).toUpperCase()));
+          }
+
           noteIndex += 1;
         }
 

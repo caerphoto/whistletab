@@ -75,6 +75,9 @@
 
     noteMatcher: /^-{1,3}.*$|-|[a-g]#?\+{0,2}|\n| /gi,
 
+    cachedInput: '',
+    showNotes: true,
+
     fingerings: {
       'd':   '------',
       'd#':  '-----h',
@@ -188,7 +191,7 @@
       return htmlNote;
     },
     staffFromNotes: function (notes) {
-      return (new window.Staff(notes, this.spacing)).toHtml();
+      return (new window.Staff(notes, this.showNotes)).toHtml();
     },
     tabFromNote: function (note, staffNotes, prevWasNote) {
       // staffNotes is a list of notes that this function modifies. Each
@@ -253,6 +256,8 @@
       var tabs;
       var prevWasNote = false;
 
+      this.cachedInput = inputString;
+
       if (lines.length === 0) {
         this.el.innerHTML = '';
         return;
@@ -271,6 +276,11 @@
 
       this.el.innerHTML = tabs.join('');
     },
+
+    refresh: function () {
+      this.setTab(this.cachedInput);
+    },
+
     setSpacing: function (toValue) {
       this.spacing = toValue;
       this.el.className = 'spacing' + toValue;
@@ -520,5 +530,10 @@
 
     checkbox = event.target;
     D.body.classList.toggle(checkbox.id, checkbox.checked);
+
+    if (checkbox.id === 'show-staff-notes') {
+      tab.showNotes = checkbox.checked;
+      tab.refresh();
+    }
   });
 }(window, window.document));
