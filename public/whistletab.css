@@ -477,6 +477,12 @@ footer {
     content: ' (' attr(href) ')';
   }
 
+  .comment.lyric + .line-break + .tab-note,
+  .comment.lyric + .line-break,
+  .staff {
+    page-break-before: avoid;
+  }
+
   .staff {
     box-shadow: none;
   }
