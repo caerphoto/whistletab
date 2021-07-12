@@ -22,8 +22,7 @@
     this.notes = notes;
     this.showNotes = !!showNotes;
 
-    //this.NOTE_WIDTH = (noteWidth * DEFAULT_SPACING) || 60;
-    this.NOTE_WIDTH = 30;
+    this.NOTE_WIDTH = DEFAULT_SPACING;
     this.STAFF_HEIGHT = 100;
     this.PAD_B = 20;
     if (this.showNotes) {
@@ -63,7 +62,6 @@
         if (note === '-') return sum;
         return sum + staff.NOTE_WIDTH;
       }, 0) + this.PAD_X * 2 + this.NOTE_X_OFFSET;
-      this.width = this.NOTE_WIDTH * 11 + (this.PAD_X * 2 + this.NOTE_X_OFFSET);
       return this.width;
     },
 
