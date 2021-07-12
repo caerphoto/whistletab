@@ -115,6 +115,7 @@ input[type="url"] {
   padding-left: 0.5em;
   margin-bottom: 1em;
   overflow: hidden;
+  padding-left: 33px;
 }
 
 .tab-note {
@@ -283,6 +284,7 @@ input[type="url"] {
   background-color: white;
   margin-bottom: 0.5em;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-left: -33px;
 }
 
 .white-background .staff {

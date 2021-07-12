@@ -1,10 +1,10 @@
 /*eslint indent: ["warn", 2] */
 (function (W, D) {
-  const DEFAULT_SPACING = 30;
+  const DEFAULT_SPACING = 19;
 
   function setAttributes(obj, attrs) {
     Object.keys(attrs).forEach(function (key) {
-      obj.setAttribute(key, attrs[key]);
+      obj.setAttributeNS(null, key, attrs[key]);
     });
   }
 
@@ -17,12 +17,12 @@
     return el;
   }
 
-  function Staff(notes, showNotes) {
-    this.svg = D.createElement('svg');
+  function Staff(notes, showNotes, spacing) {
+    this.svg = D.createElementNS('http://www.w3.org/2000/svg', 'svg');
     this.notes = notes;
     this.showNotes = !!showNotes;
 
-    this.NOTE_WIDTH = DEFAULT_SPACING;
+    this.NOTE_WIDTH = spacing || DEFAULT_SPACING;
     this.STAFF_HEIGHT = 100;
     this.PAD_B = 20;
     if (this.showNotes) {
@@ -31,8 +31,11 @@
     }
     this.PAD_X = 10;
     this.PAD_T = 40;
-    this.NOTE_X_OFFSET = this.PAD_X + this.NOTE_WIDTH * 1.5;
+    this.PAD_KEY = 30;
+    this.KEY_SIG_SPACING = 8;
+    this.NOTE_X_OFFSET = this.PAD_X + this.PAD_KEY;
     this.LINE_SPACE = (this.STAFF_HEIGHT - this.PAD_T - this.PAD_B) / 4;
+
     this.init();
   }
 
@@ -85,7 +88,6 @@
       this.normaliseNotes();
 
       setAttributes(this.svg, {
-        xmlns: 'http://www.w3.org/2000/svg',
         x: 0,
         y: 0,
         width: this.width,
@@ -192,14 +194,14 @@
         'd': ['f#+', 'c#'],
         'a': ['f#+', 'c#', 'g#+']
       };
-      let x = this.NOTE_X_OFFSET - this.NOTE_WIDTH * 1.4;
+      let x = this.PAD_X + 2;
 
       if (!keySignatures[key]) return;
 
       keySignatures[key].forEach(function (sig) {
         let sign = /#/.test(sig) ? '♯' : '♭';
         this.drawPitchSign(sig, x, sign);
-        x += this.NOTE_WIDTH / 4;
+        x += this.KEY_SIG_SPACING;
       }, this);
     },
 
