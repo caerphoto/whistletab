@@ -255,11 +255,15 @@
           this.drawLedgerLines(note, x);
 
           if (this.showNotes) {
+            let unoctavedNote = note.
+              replace(/\+/g, '').
+              replace(/#/, '♯').
+              toUpperCase();
             this.svg.appendChild(svgEl('text', {
               x: x - space / 2,
               y: this.STAFF_HEIGHT - 7,
-              'class': 'pitch-sign'
-            }, note.charAt(0).toUpperCase()));
+              'class': 'staff-note-text'
+            }, unoctavedNote));
           }
 
           noteIndex += 1;

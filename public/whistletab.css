@@ -285,6 +285,7 @@ input[type="url"] {
   margin-bottom: 0.5em;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   margin-left: -33px;
+  font: inherit;
 }
 
 .white-background .staff {
@@ -295,6 +296,12 @@ input[type="url"] {
   font: inherit;
   font-size: 1em;
   stroke: rgba(0, 0, 0, 0.2);
+}
+
+.staff .staff-note-text {
+  font: inherit;
+  letter-spacing: -3.5px;
+  font-size: 0.8em;
 }
 
 .staff line {
