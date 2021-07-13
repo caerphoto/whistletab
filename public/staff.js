@@ -2,6 +2,8 @@
 (function (W, D) {
   const DEFAULT_SPACING = 19;
 
+  const ALL_NOTES = 'g+ a+ b+ c+ d++ e++ f++ g++ a++ b++ c++'.split(' ');
+
   function setAttributes(obj, attrs) {
     Object.keys(attrs).forEach(function (key) {
       obj.setAttributeNS(null, key, attrs[key]);
@@ -23,18 +25,16 @@
     this.showNotes = !!showNotes;
 
     this.NOTE_WIDTH = spacing || DEFAULT_SPACING;
-    this.STAFF_HEIGHT = 100;
     this.PAD_B = 20;
     if (this.showNotes) {
-      this.STAFF_HEIGHT = 120;
       this.PAD_B = 40;
     }
     this.PAD_X = 10;
-    this.PAD_T = 40;
     this.PAD_KEY = 30;
     this.KEY_SIG_SPACING = 8;
     this.NOTE_X_OFFSET = this.PAD_X + this.PAD_KEY;
-    this.LINE_SPACE = (this.STAFF_HEIGHT - this.PAD_T - this.PAD_B) / 4;
+    this.LINE_SPACE = 10;
+    // this.STAFF_HEIGHT is calculated during init()
 
     this.init();
   }
@@ -58,15 +58,6 @@
       }
       return this._collapsedNotes;
     },
-    calculateWidth: function () {
-      const staff = this;
-
-      this.width = this.collapsedNotes().reduce(function (sum, note) {
-        if (note === '-') return sum;
-        return sum + staff.NOTE_WIDTH;
-      }, 0) + this.PAD_X * 2 + this.NOTE_X_OFFSET;
-      return this.width;
-    },
 
     normaliseNotes: function () {
       this.notes = this.notes.map(function (note) {
@@ -80,12 +71,42 @@
 
         return note;
       });
-
     },
 
+    naturalOf: function (note, deoctaved) {
+      if (deoctaved) return note.replace('#', '').replace(/\+/g, '');
+      return note.replace('#', '');
+    },
+
+    setWidth: function () {
+      const staff = this;
+
+      this.width = this.collapsedNotes().reduce(function (sum, note) {
+        if (note === '-') return sum;
+        return sum + staff.NOTE_WIDTH;
+      }, 0) + this.PAD_X * 2 + this.NOTE_X_OFFSET;
+      return this.width;
+    },
+
+    setTopPadding: function () {
+      let  maxIndex = 0;
+      for (let i = 0; i < this.notes.length; i += 1) {
+        const note = this.naturalOf(this.notes[i]);
+        maxIndex =  Math.max(maxIndex, ALL_NOTES.indexOf(note));
+        if (maxIndex === ALL_NOTES.length - 1) break;
+      }
+
+      this.PAD_T = maxIndex * (this.LINE_SPACE / 2) + 15;
+      return this.PAD_T;
+    },
+
+
     init: function () {
-      this.calculateWidth();
       this.normaliseNotes();
+      this.setWidth();
+      this.setTopPadding();
+
+      this.STAFF_HEIGHT = this.PAD_T + this.LINE_SPACE * 4 + this.PAD_B;
 
       setAttributes(this.svg, {
         x: 0,
@@ -100,7 +121,7 @@
 
     noteY: function (note) {
       const scale = 'd e f g a b c'.split(' ');
-      const natural = note.charAt(0);
+      const natural = this.naturalOf(note, true);
       let offset = scale.indexOf(natural.toLowerCase());
 
       if (/[a-g]#?\+\+|[A-G]#?\+/.test(note)) offset += 14;
@@ -159,13 +180,13 @@
       }));
     },
     drawLedgerLines: function (note, x) {
-      const natural = note.replace('#', '');
+      const natural = this.naturalOf(note);
       let ledgerNotes = [];
       let noteIndex;
       let offset = 0;
 
       if (/[b]\+$|[dfac]\+\+/.test(natural)) {
-        ledgerNotes = 'b+ d++ f++ a ++ c++'.split(' ');
+        ledgerNotes = 'b+ d++ f++ a++ c++'.split(' ');
         offset = this.LINE_SPACE / 2;
       } else if (/[ac]\+$|[egb]\+\+$/.test(natural)) {
         ledgerNotes = 'a+ c+ e++ g++ b++'.split(' ');
