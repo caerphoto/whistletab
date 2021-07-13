@@ -316,6 +316,9 @@ input[type="url"] {
                 .lyric { display: none; }
 .show-lyrics    .lyric { display: block; }
 
+                .tab-note + .spacer { display: none; }
+.show-fingering .tab-note + .spacer { display: block; }
+
                 .tab-note li.tab-note-text { height: 0; }
 .show-notes     .tab-note li.tab-note-text { height: auto; }
 
@@ -326,6 +329,8 @@ input[type="url"] {
 
                 .slur, .finger { display: none; }
 .show-fingering .finger, .show-fingering .slur { display: block; }
+
+body:not(.show-fingering, .show-notes) .tab-note { margin: 0; }
 
 .show-staves .staff { display: block; }
 
