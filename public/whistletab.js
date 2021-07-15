@@ -1,3 +1,4 @@
+/*eslint indent: ["warn", 2] */
 (function (W, D) {
   var DEFAULT_TABS = [
     {
@@ -73,6 +74,13 @@
 
     noteMatcher: /^-{1,3}.*$|-|[a-g]#?\+{0,2}|\n| /gi,
 
+    spacing: 1,
+    // These are the spacings as defined in ems in the CSS
+    spacings: [0, 0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8],
+    cachedInput: null,
+    showNotes: true,
+    staves: [],
+
     fingerings: {
       'd':   '------',
       'd#':  '-----h',
@@ -135,6 +143,19 @@
       'H': '\u25d0', // circle with left half black
       'h': '\u25d1'  // circle with right half black
     },
+    measure1Em: function () {
+      const ul = this.el.querySelector('ul');
+      const rect = ul.getBoundingClientRect();
+
+      // Fingering elements have a width of 1.2em defined in the CSS.
+      this.emSize = rect.width / 1.2;
+
+      return this.emSize;
+    },
+
+    calculateNoteSpacing: function () {
+      return this.emSize * (this.spacings[this.spacing] + 1.2);
+    },
 
     lyricsFromNote: function (note) {
       var commentWords = note.replace(/^--(.*)$/, '$1').split(' ');
@@ -185,8 +206,23 @@
 
       return htmlNote;
     },
-    tabFromNote: function (note) {
+    staffFromNotes: function (notes) {
+      const noteSpacing = this.calculateNoteSpacing();
+      const newStaff = new window.Staff(notes, this.showNotes, noteSpacing);
+      this.staves.push(newStaff);
+      return newStaff.toHtml();
+    },
+    tabFromNote: function (note, staffNotes, prevWasNote) {
+      // staffNotes is a list of notes that this function modifies. Each
+      // note, space and slur is added to it, and when a line break is reached,
+      // a staff is added and the list is reset.
       var fingers;
+
+      if (note === '\n' && prevWasNote) {
+        var staff = this.staffFromNotes(staffNotes);
+        staffNotes.length = 0;
+        return staff + '<div class="line-break"></div>';
+      }
 
       if (note === '\n') {
         return '<div class="line-break"></div>';
@@ -197,10 +233,12 @@
       }
 
       if (note === ' ') {
+        staffNotes.push(note);
         return this.spacerTemplate;
       }
 
       if (note === '-') {
+        staffNotes.push(note);
         return this.slurTemplate;
       }
 
@@ -217,6 +255,7 @@
       }
 
       if (this.fingerings[note]) {
+        staffNotes.push(note);
         fingers = this.fingerings[note].split('');
       } else {
         return this.errorTemplate;
@@ -228,11 +267,17 @@
       }.bind(this), this.tabTemplate.concat()).
         replace('$N', this.noteTemplate(note));
     },
+
     setTab: function (inputString) {
       var self = this;
       var lines = inputString.split('\n');
       var notes;
+      var staffNotes = [];
       var tabs;
+      var prevWasNote = false;
+
+      this.staves = [];
+      this.cachedInput = inputString;
 
       if (lines.length === 0) {
         this.el.innerHTML = '';
@@ -245,13 +290,41 @@
       }, []);
 
       tabs = notes.map(function (note) {
-        return this.tabFromNote(note);
+        var mapped = this.tabFromNote(note, staffNotes, prevWasNote);
+        prevWasNote = !!this.fingerings[note];
+        return mapped;
       }, this);
 
       this.el.innerHTML = tabs.join('');
+      this.measure1Em();
     },
+
+    refresh: function () {
+      if (!this.cachedInput) return;
+
+      this.setTab(this.cachedInput);
+    },
+
     setSpacing: function (toValue) {
-      this.el.className = 'spacing' + toValue;
+      this.spacing = parseInt(toValue, 10);
+      this.el.className = 'spacing' + this.spacing;
+
+      if (this.staves.length === 0) return;
+
+      const newStaves = [];
+      const staffEls = Array.from(this.el.querySelectorAll('.staff'));
+
+      staffEls.forEach(function (el, index) {
+        const oldStaff = this.staves[index];
+        const notes = oldStaff.notes;
+        const noteSpacing = this.calculateNoteSpacing();
+        const newStaff = new window.Staff(notes, this.showNotes, noteSpacing);
+        newStaff.render();
+        this.el.replaceChild(newStaff.svg, el);
+        newStaves.push(newStaff);
+      }, this);
+
+      this.staves = newStaves;
     }
   };
 
@@ -498,5 +571,10 @@
 
     checkbox = event.target;
     D.body.classList.toggle(checkbox.id, checkbox.checked);
+
+    if (checkbox.id === 'show-staff-notes') {
+      tab.showNotes = checkbox.checked;
+      tab.refresh();
+    }
   });
 }(window, window.document));

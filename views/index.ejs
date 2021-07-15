@@ -6,15 +6,18 @@
     <link href="/whistletab/whistletab.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/whistletab/favicon.png">
   </head>
-  <body class="<%= serverStore ? 'server-store' : '' %> show-notes show-fingering show-lyrics">
+  <body class="<%= serverStore ? 'server-store' : '' %> show-notes show-fingering show-lyrics show-staves">
     <h1>Tin Whistle Tab Creator</h1>
     <p>For <em>D-tuned</em> whistles. Use <kbd>#</kbd> after a note to indicate sharp, and <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves. Spaces and newlines can be used for grouping, and comments, lyrics and headings can be added by starting a new line with <kbd>-</kbd>, <kbd>-&zwnj;-</kbd> and <kbd>-&zwnj;-&zwnj;-</kbd>.</p>
+    <p>Display options are at the <a href="#display-options">bottom of the page &darr;</a></p>
 
     <textarea id="notes" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-    <label id="spacing-label">Spacing: <input id="spacing" type="range" min="0" max="10" value="1"></label>
 
     <h1 class="print-only" id="print-title">(untitled)</h1>
+
     <h2>Source: <a id="tab-source-link"></a></h2>
+
+    <label id="spacing-label">Spacing: <input id="spacing" type="range" min="0" max="10" value="1"></label>
 
     <div id="tab" class="spacing1"></div>
 
@@ -49,7 +52,7 @@
       </fieldset>
     </form>
 
-    <form id="server-tabs-form" action="#" class="tab-list">
+    <form id="server-tabs-form" action="#" class="tab-list collapsed">
       <fieldset>
         <legend data-form-name="server">Ready-made tabs</legend>
         <p>These are tabs I found around the internet and collected here.</p>
@@ -66,6 +69,8 @@
       <label class="break-float"><input type="checkbox" checked id="show-fingering"> Show fingering</label>
       <label class="break-float"><input type="checkbox" checked id="show-notes"> Show notes</label>
       <label class="break-float"><input type="checkbox" checked id="show-lyrics"> Show lyrics</label>
+      <label class="break-float"><input type="checkbox" checked id="show-staves"> Show staves</label>
+      <label class="break-float"><input type="checkbox" checked id="show-staff-notes"> Show staff notes</label>
     </fieldset>
 
     <template id="tab-entry"><ul class="tab-note">
@@ -101,6 +106,7 @@
       <script>window.WHISTLETAB_SECRET = '<%= secret %>';</script>
       <script src="/whistletab/serverstore.js"></script>
     <% } %>
+    <script src="/whistletab/staff.js"></script>
     <script src="/whistletab/whistletab.js"></script>
   </body>
 </html>

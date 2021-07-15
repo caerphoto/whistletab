@@ -115,6 +115,7 @@ input[type="url"] {
   padding-left: 0.5em;
   margin-bottom: 1em;
   overflow: hidden;
+  padding-left: 33px;
 }
 
 .tab-note {
@@ -166,9 +167,13 @@ input[type="url"] {
   margin-top: 0.5em;
 }
 
+.tab-note li:nth-child(6) {
+  margin-bottom: 0.7em;
+}
+
+
 .tab-note li.tab-note-text {
   position: relative;
-  padding-top: 0.6em;
   white-space: no-wrap;
   background: none;
   border-radius: 0;
@@ -187,8 +192,8 @@ input[type="url"] {
 
 .tab-note li sup {
   position: absolute;
-  top: 0.1em;
-  left: 0;
+  top: -0.7em;
+  left: -0.1em;
   width: 100%;
   text-align: center;
   font-size: 70%;
@@ -277,15 +282,57 @@ input[type="url"] {
   height: 1em;
 }
 
+.staff {
+  display: none;
+  clear: both;
+  background-color: white;
+  margin-bottom: 0.5em;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-left: -33px;
+  font: inherit;
+}
+
+.white-background .staff {
+  box-shadow: none;
+}
+
+.staff .pitch-sign {
+  font: inherit;
+  font-size: 1em;
+  stroke: rgba(0, 0, 0, 0.2);
+}
+
+.staff .staff-note-text {
+  font: inherit;
+  letter-spacing: -3.5px;
+  font-size: 0.8em;
+}
+
+.staff line {
+  stroke-width: 1px;
+}
+
 /* Display options */
                 .lyric { display: none; }
 .show-lyrics    .lyric { display: block; }
+
+                .tab-note + .spacer { display: none; }
+.show-fingering .tab-note + .spacer { display: block; }
+
                 .tab-note li.tab-note-text { height: 0; }
 .show-notes     .tab-note li.tab-note-text { height: auto; }
+
                 .tab-note--letter { display: none; }
+                .tab-note--letter + sup { display: none; }
 .show-notes     .tab-note--letter { display: inline; }
+.show-notes     .tab-note--letter + sup { display: inline; }
+
                 .slur, .finger { display: none; }
 .show-fingering .finger, .show-fingering .slur { display: block; }
+
+body:not(.show-fingering, .show-notes) .tab-note { margin: 0; }
+
+.show-staves .staff { display: block; }
 
 form {
   box-sizing: border-box;
@@ -444,5 +491,15 @@ footer {
   }
   a::after {
     content: ' (' attr(href) ')';
+  }
+
+  .comment.lyric + .line-break + .tab-note,
+  .comment.lyric + .line-break,
+  .staff {
+    page-break-before: avoid;
+  }
+
+  .staff {
+    box-shadow: none;
   }
 }
