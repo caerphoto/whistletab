@@ -560,13 +560,15 @@
   }; // tabStorage obj
 
   var config = {
+    // these are also the defaul options
     options: {
       'white-background': false,
       'show-fingering': true,
       'show-notes': true,
       'show-lyrics': true,
       'show-staves': false,
-      'show-staff-notes': true
+      'show-staff-notes': true,
+      'show-options': true
     },
 
     form: D.querySelector('#display-options'),
@@ -574,10 +576,10 @@
     init: function () {
       this.form.addEventListener('change', this.optionChange.bind(this));
       this.form.addEventListener('click', this.formClick.bind(this));
-      this.load();
       this.form.addEventListener('submit', function (event) {
         event.preventDefault();
       });
+      this.load();
     },
 
     setOption: function (option, isOn) {
@@ -588,11 +590,18 @@
         tab.showNotes = !!isOn;
         tab.refresh();
       }
+
+      this.save();
     },
 
     setCheckbox: function (option, isOn) {
       var checkbox = D.querySelector('#' + option);
       checkbox.checked = isOn;
+    },
+
+    setDialogOpen: function (isOpen) {
+      this.form.classList.toggle('open', !!isOpen);
+      this.setOption('show-options', isOpen);
     },
 
     save: function () {
@@ -614,15 +623,19 @@
       Object.keys(this.options).forEach(function (option) {
         var isOn = !!loadedOptions[option];
         this.options[option] = isOn;
-        this.setOption(option, isOn);
-        this.setCheckbox(option, isOn);
+
+        if (option === 'show-options') {
+          this.setDialogOpen(isOn);
+        } else {
+          this.setOption(option, isOn);
+          this.setCheckbox(option, isOn);
+        }
       }, this);
     },
 
     formClick: function (event) {
       if (!event.target.classList.contains('dialog-toggle')) return;
-
-      this.form.classList.toggle('open');
+      this.setDialogOpen(!this.options['show-options']);
     },
 
     optionChange: function (event) {
@@ -633,7 +646,6 @@
 
       checkbox = event.target;
       this.setOption(checkbox.id, checkbox.checked);
-      this.save();
     }
   }; // config obj
 
