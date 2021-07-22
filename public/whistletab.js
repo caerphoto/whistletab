@@ -480,7 +480,7 @@
 
       this.tabInput.setValue(tabToLoad.tab);
       this.tabInput.setSpacing(tabToLoad.spacing);
-      D.title = tabToLoad.name + ' · ' + APP_TITLE;
+      D.title = tabToLoad.name + ' ⋮ ' + APP_TITLE;
       this.printTitle.innerHTML = tabToLoad.name;
       this.printTitle.scrollIntoView(true, { behaviour: 'smooth' });
       this.setSourceHeading(tabToLoad.sourceUrl);
@@ -573,7 +573,11 @@
 
     init: function () {
       this.form.addEventListener('change', this.optionChange.bind(this));
+      this.form.addEventListener('click', this.formClick.bind(this));
       this.load();
+      this.form.addEventListener('submit', function (event) {
+        event.preventDefault();
+      });
     },
 
     setOption: function (option, isOn) {
@@ -613,6 +617,12 @@
         this.setOption(option, isOn);
         this.setCheckbox(option, isOn);
       }, this);
+    },
+
+    formClick: function (event) {
+      if (!event.target.classList.contains('dialog-toggle')) return;
+
+      this.form.classList.toggle('open');
     },
 
     optionChange: function (event) {

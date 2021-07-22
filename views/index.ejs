@@ -9,7 +9,6 @@
   <body class="<%= serverStore ? 'server-store' : '' %> show-notes show-fingering show-lyrics show-staves">
     <h1>Tin Whistle Tab Creator</h1>
     <p>For <em>D-tuned</em> whistles. Use <kbd>#</kbd> after a note to indicate sharp, and <kbd>+</kbd> and <kbd>++</kbd> to indicate upper octaves. Spaces and newlines can be used for grouping, and comments, lyrics and headings can be added by starting a new line with <kbd>-</kbd>, <kbd>-&zwnj;-</kbd> and <kbd>-&zwnj;-&zwnj;-</kbd>.</p>
-    <p>Display options are at the <a href="#display-options">bottom of the page &darr;</a></p>
 
     <textarea id="notes" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 
@@ -63,50 +62,78 @@
       </fieldset>
     </form>
 
-    <fieldset id="display-options">
-      <legend>Display options</legend>
-      <label class="break-float"><input type="checkbox" id="white-background"> White background</label>
-      <label class="break-float"><input type="checkbox" checked id="show-fingering"> Show fingering</label>
-      <label class="break-float"><input type="checkbox" checked id="show-notes"> Show notes</label>
-      <label class="break-float"><input type="checkbox" checked id="show-lyrics"> Show lyrics</label>
-      <label class="break-float"><input type="checkbox" checked id="show-staves"> Show staves</label>
-      <label class="break-float"><input type="checkbox" checked id="show-staff-notes"> Show staff notes</label>
-    </fieldset>
+    <form id="display-options" class="dialog open">
+      <button class="dialog-toggle" title="Options for display"></button>
 
-    <template id="tab-entry"><ul class="tab-note">
-        <li class="finger">$0</li>
-        <li class="finger">$1</li>
-        <li class="finger">$2</li>
-        <li class="finger">$3</li>
-        <li class="finger">$4</li>
-        <li class="finger">$5</li>
-        <li class="tab-note-text">$N</li>
-      </ul></template>
+      <div class="dialog-content">
+        <h3>Display options</h3>
+        <div class="input-container">
+          <input type="checkbox" id="white-background">
+          <label for="white-background">White background</label>
+        </div>
 
-    <template id="tab-entry-error">
-      <ul class="tab-note error">
-        <li>?</li>
-        <li>?</li>
-        <li>?</li>
-        <li>?</li>
-        <li>?</li>
-        <li>?</li>
-        <li class="tab-note">?</li>
-      </ul>
-    </template>
+        <div class="input-container">
+          <input type="checkbox" checked id="show-fingering">
+          <label for="show-fingering">Show fingering</label>
+        </div>
 
-    <script>
-      window.serverTabs = <%- JSON.stringify(tabs) %>;
-    </script>
+        <div class="input-container">
+          <input type="checkbox" checked id="show-notes">
+          <label for="show-notes">Show notes</label>
+        </div>
 
-    <footer>
-      <p>Tin Whistle Tab Creator by <a href="http://andyf.me/">Andy Farrell</a>.</p>
-    </footer>
-    <% if (serverStore) { %>
-      <script>window.WHISTLETAB_SECRET = '<%= secret %>';</script>
-      <script src="/whistletab/serverstore.js"></script>
-    <% } %>
-    <script src="/whistletab/staff.js"></script>
-    <script src="/whistletab/whistletab.js"></script>
-  </body>
-</html>
+        <div class="input-container">
+          <input type="checkbox" checked id="show-lyrics">
+          <label for="show-lyrics">Show lyrics</label>
+        </div>
+
+        <div class="input-container">
+          <input type="checkbox" checked id="show-staves">
+          <label for="show-staves">Show staves</label>
+        </div>
+
+        <div class="input-container">
+          <input type="checkbox" checked id="show-staff-notes">
+          <label for="show-staff-notes">Show staff notes</label>
+        </div>
+
+      </div>
+    </form>
+
+      <template id="tab-entry"><ul class="tab-note">
+          <li class="finger">$0</li>
+          <li class="finger">$1</li>
+          <li class="finger">$2</li>
+          <li class="finger">$3</li>
+          <li class="finger">$4</li>
+          <li class="finger">$5</li>
+          <li class="tab-note-text">$N</li>
+        </ul></template>
+
+      <template id="tab-entry-error">
+        <ul class="tab-note error">
+          <li>?</li>
+          <li>?</li>
+          <li>?</li>
+          <li>?</li>
+          <li>?</li>
+          <li>?</li>
+          <li class="tab-note">?</li>
+        </ul>
+      </template>
+
+      <script>
+        window.serverTabs = <%- JSON.stringify(tabs) %>;
+      </script>
+
+      <footer>
+        <p>Tin Whistle Tab Creator by <a href="http://andyf.me/">Andy Farrell</a>.</p>
+      </footer>
+      <% if (serverStore) { %>
+        <script>window.WHISTLETAB_SECRET = '<%= secret %>';</script>
+        <script src="/whistletab/serverstore.js"></script>
+      <% } %>
+      <script src="/whistletab/staff.js"></script>
+      <script src="/whistletab/whistletab.js"></script>
+    </body>
+  </html>

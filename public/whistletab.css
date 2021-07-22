@@ -434,6 +434,80 @@ button {
   background-color: #eee;
 }
 
+.dialog {
+  display: block;
+  position: fixed;
+  top: 2em;
+  right: 2em;
+
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+
+  background-color: #fff;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.dialog.open {
+  transition: height 1s ease, width 1s ease;
+  width: auto;
+  height: auto;
+  padding: 1em 6em 1em 3em;
+}
+
+.dialog .dialog-toggle {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  border-radius: 50%;
+  line-height: 1;
+  text-align: left;
+  color: #666;
+}
+
+.dialog-toggle:hover {
+  border-color: #000;
+  color: #000;
+}
+
+.dialog-toggle::before {
+  content: "◹";
+}
+
+.dialog.open .dialog-toggle::before {
+  content: "◺";
+}
+
+.dialog-content {
+  display: none;
+}
+
+.dialog.open .dialog-content {
+  display: block;
+}
+
+.dialog h3 {
+  padding: 0 0 0.5em;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 1em;
+}
+
+#display-options .input-container {
+  margin-bottom: 0.5em;
+}
+
+#display-options input[type="checkbox"] {
+  display: inline-block;
+  margin-left: -1.8em;
+  overflow-x: visible;
+  margin-right: 0.5em;
+}
+
 .warning {
   border-color: #b80;
   color: #b80;
