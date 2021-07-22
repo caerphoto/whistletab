@@ -427,11 +427,14 @@ input[type="radio"] {
 }
 
 button {
+  appearance: none;
+  -webkit-appearance: none;
   border: 1px solid #888;
   font: inherit;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   margin-right: 1em;
   background-color: #eee;
+  padding: 0.2em 0.5em;
 }
 
 .dialog {
@@ -476,7 +479,11 @@ button {
 }
 
 .dialog-toggle::before {
+  display: inline-block;
   content: "◹";
+  width: 0;
+  padding: 0;
+  letter-spacing: 0;
 }
 
 .dialog.open .dialog-toggle::before {
