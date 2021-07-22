@@ -1,4 +1,3 @@
-/*eslint indent: ["warn", 2] */
 (function (W, D) {
   var DEFAULT_TABS = [
     {
@@ -63,7 +62,7 @@
     updateSpacing: function () {
       this.output.setSpacing(this.spacing.value);
     }
-  };
+  }; // input obj
 
   var tab = {
     el: this.el = D.querySelector('#tab'),
@@ -326,7 +325,7 @@
 
       this.staves = newStaves;
     }
-  };
+  }; // tab obj
 
   var tabStorage = {
     nameInput: D.querySelector('#tab-name'),
@@ -558,23 +557,79 @@
       }
       form.classList.toggle('collapsed');
     }
-  };
+  }; // tabStorage obj
+
+  var config = {
+    options: {
+      'white-background': false,
+      'show-fingering': true,
+      'show-notes': true,
+      'show-lyrics': true,
+      'show-staves': false,
+      'show-staff-notes': true
+    },
+
+    form: D.querySelector('#display-options'),
+
+    init: function () {
+      this.form.addEventListener('change', this.optionChange.bind(this));
+      this.load();
+    },
+
+    setOption: function (option, isOn) {
+      this.options[option] = !!isOn;
+      D.body.classList.toggle(option, !!isOn);
+
+      if (option === 'show-staff-notes') {
+        tab.showNotes = !!isOn;
+        tab.refresh();
+      }
+    },
+
+    setCheckbox: function (option, isOn) {
+      var checkbox = D.querySelector('#' + option);
+      checkbox.checked = isOn;
+    },
+
+    save: function () {
+      var json = JSON.stringify(this.options);
+      W.localStorage.setItem('options', json);
+    },
+
+    load: function () {
+      var json = W.localStorage.getItem('options');
+      var loadedOptions;
+
+      try {
+        loadedOptions = JSON.parse(json);
+      } catch (err) {
+        W.console.error(err);
+        return;
+      }
+
+      Object.keys(this.options).forEach(function (option) {
+        var isOn = !!loadedOptions[option];
+        this.options[option] = isOn;
+        this.setOption(option, isOn);
+        this.setCheckbox(option, isOn);
+      }, this);
+    },
+
+    optionChange: function (event) {
+      var checkbox;
+      if (event.target.nodeName !== 'INPUT') {
+        return;
+      }
+
+      checkbox = event.target;
+      this.setOption(checkbox.id, checkbox.checked);
+      this.save();
+    }
+  }; // config obj
 
   input.init(tab);
   tabStorage.init(input);
+  config.init();
 
-  D.querySelector('#display-options').addEventListener('change', function (event) {
-    var checkbox;
-    if (event.target.nodeName !== 'INPUT') {
-      return;
-    }
 
-    checkbox = event.target;
-    D.body.classList.toggle(checkbox.id, checkbox.checked);
-
-    if (checkbox.id === 'show-staff-notes') {
-      tab.showNotes = checkbox.checked;
-      tab.refresh();
-    }
-  });
 }(window, window.document));
